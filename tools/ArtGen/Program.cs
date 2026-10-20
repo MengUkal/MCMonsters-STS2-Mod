@@ -3797,6 +3797,32 @@ Console.WriteLine("OK scenes/creature_visuals/warden.tscn");
 var captainTscn = BuildCreatureTscn(@"D:\塔2MOD\MCMonsters\pck_content\animations\monsters\pillager\pillager_base.png", "raid_captain", 300.0);
 File.WriteAllText(@"D:\塔2MOD\MCMonsters\pck_content\scenes\creature_visuals\raid_captain.tscn", captainTscn);
 Console.WriteLine("OK scenes/creature_visuals/raid_captain.tscn（袭击队长·掠夺者放大版）");
+// ===== 图集页名全局改写：相对路径 -> res:// 绝对路径（免去游戏根目录裸图）=====
+try
+{
+    var monstersRoot2 = @"D:\塔2MOD\MCMonsters\pck_content\animations\monsters";
+    int rewrote = 0;
+    foreach (var dir2 in Directory.GetDirectories(monstersRoot2))
+    {
+        string slug2 = Path.GetFileName(dir2);
+        foreach (var atlasFile2 in Directory.GetFiles(dir2, "*.atlas"))
+        {
+            var lines2 = File.ReadAllLines(atlasFile2);
+            if (lines2.Length > 0)
+            {
+                string page2 = lines2[0].Trim();
+                {
+                    string fileName2 = page2.StartsWith("res://") ? Path.GetFileName(page2) : page2;
+                    lines2[0] = "mc_textures/" + fileName2;
+                    File.WriteAllLines(atlasFile2, lines2);
+                    rewrote++;
+                }
+            }
+        }
+    }
+    Console.WriteLine($"OK 图集页名改写: {rewrote} 个 -> res:// 路径");
+}
+catch (Exception ex2) { Console.WriteLine("图集页名改写失败: " + ex2.Message); }
 // ============================ 4. 组装 mod pck ============================
 if (args.Length > 1 || Environment.GetEnvironmentVariable("ARTGEN_PACK") == "1" || packOnly)
 {

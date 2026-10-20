@@ -9,86 +9,94 @@ using MegaCrit.Sts2.Core.Modding;
 namespace MCMonsters;
 
 /// <summary>
-/// MOD入口。游戏 ModManager 加载 MCMonsters.dll 后，
-/// 通过 [ModInitializer] 找到本类并调用 Initialize()。
-/// 怪物/遭遇本身由 ModelDb.Init() 自动发现（反射扫描MOD程序集），
-/// Harmony补丁（遭遇池注入）在这里手动应用——
-/// 注意：一旦声明了 [ModInitializer]，游戏就不再自动执行 Harmony.PatchAll。
+/// MOD入口。
+/// 1. 自安装贴图到 <游戏根>\mc_textures\（Spine 纹理按相对路径加载的引擎限制）
+/// 2. 应用 Harmony 补丁（遭遇池注入）
+/// 贴图安装失败时不注入遭遇池——避免怪物立绘缺失导致游戏崩溃。
 /// </summary>
 [ModInitializer("Initialize")]
 public static class ModEntry
 {
     public const string ModId = "MCMonsters";
+    public const string TextureDirName = "mc_textures";
+
+    /// <summary>贴图是否就绪（未就绪则不注入遭遇，走安全降级）</summary>
+    public static bool TexturesReady { get; private set; }
 
     public static void Initialize()
     {
-        // 1. 自安装裸名贴图：Spine 纹理按相对路径（游戏根目录）加载，
-        //    创意工坊订阅用户的游戏根目录没有这些文件 → 从MOD目录自动复制过去
-        InstallBareTextures();
+        TexturesReady = InstallBareTextures();
 
-        // 2. Harmony补丁
         var harmony = new Harmony(ModId.ToLowerInvariant());
         harmony.PatchAll(Assembly.GetExecutingAssembly());
         int patchCount = Harmony.GetAllPatchedMethods().Count();
-        Log.Info($"[{ModId}] Init complete: {patchCount} patched methods. Zombie injected into Act 1 encounter pools.");
+        if (TexturesReady)
+        {
+            Log.Info($"[{ModId}] Init complete: {patchCount} patched methods. MC encounters injected.");
+        }
+        else
+        {
+            Log.Error($"[{ModId}] 贴图安装失败！MC遭遇池已跳过，怪物不会出现。请把 mods/MCMonsters/*.png 复制到 {TextureDirName} 文件夹（如游戏在C盘Program Files需管理员权限）");
+        }
     }
 
-    /// <summary>
-    /// 把MOD目录里的怪物裸图复制到游戏根目录（Spine 纹理加载依赖）。
-    /// 创意工坊版本必须自安装——订阅内容的目录不是游戏根目录。
-    /// </summary>
-    private static void InstallBareTextures()
+    private static bool InstallBareTextures()
     {
         try
         {
             string? modDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             if (string.IsNullOrEmpty(modDir) || !Directory.Exists(modDir))
             {
-                Log.Warn($"[{ModId}] Texture install skipped: mod dir not found");
-                return;
+                Log.Warn($"[{ModId}] 找不到MOD目录");
+                return false;
             }
 
-            // 游戏根目录 = 可执行文件所在目录
             string gameRoot;
-            try
-            {
-                gameRoot = Path.GetDirectoryName(global::Godot.OS.GetExecutablePath()) ?? "";
-            }
-            catch
-            {
-                gameRoot = Directory.GetCurrentDirectory();
-            }
+            try { gameRoot = Path.GetDirectoryName(global::Godot.OS.GetExecutablePath()) ?? ""; }
+            catch { gameRoot = Directory.GetCurrentDirectory(); }
             if (string.IsNullOrEmpty(gameRoot) || !Directory.Exists(gameRoot))
             {
                 gameRoot = Directory.GetCurrentDirectory();
             }
 
+            string texDir = Path.Combine(gameRoot, TextureDirName);
+            Directory.CreateDirectory(texDir);
+
             var pngs = Directory.GetFiles(modDir, "*.png", SearchOption.TopDirectoryOnly);
-            int copied = 0;
+            if (pngs.Length == 0)
+            {
+                Log.Warn($"[{ModId}] MOD目录没有贴图文件");
+                return false;
+            }
+
+            int ok = 0;
             foreach (var png in pngs)
             {
-                string name = Path.GetFileName(png);
-                string dest = Path.Combine(gameRoot, name);
                 try
                 {
-                    if (File.Exists(dest))
+                    string dest = Path.Combine(texDir, Path.GetFileName(png));
+                    if (File.Exists(dest) && new FileInfo(dest).Length == new FileInfo(png).Length)
                     {
-                        // 已存在但大小不同则覆盖（MOD更新场景）
-                        if (new FileInfo(dest).Length == new FileInfo(png).Length) continue;
+                        ok++;
+                        continue;
                     }
                     File.Copy(png, dest, overwrite: true);
-                    copied++;
+                    ok++;
                 }
                 catch (Exception ex)
                 {
-                    Log.Warn($"[{ModId}] Could not install texture {name}: {ex.Message}");
+                    Log.Warn($"[{ModId}] 复制贴图失败 {Path.GetFileName(png)}: {ex.Message}");
                 }
             }
-            Log.Info($"[{ModId}] Installed {copied} bare textures to game root ({pngs.Length} in mod dir)");
+
+            bool ready = ok >= pngs.Length && ok > 0;
+            Log.Info($"[{ModId}] 贴图安装: {ok}/{pngs.Length} -> {texDir} (ready={ready})");
+            return ready;
         }
         catch (Exception ex)
         {
-            Log.Warn($"[{ModId}] Texture install failed: {ex.Message}");
+            Log.Error($"[{ModId}] 贴图安装异常: {ex.Message}");
+            return false;
         }
     }
 }

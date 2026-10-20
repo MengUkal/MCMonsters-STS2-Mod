@@ -1,4 +1,4 @@
-wither_boss.png
+mc_textures/wither_boss.png
 size:600,500
 format:RGBA8888
 filter:Linear,Linear
