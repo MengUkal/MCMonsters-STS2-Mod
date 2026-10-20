@@ -4,7 +4,7 @@
 
 ## 安装方法
 
-1. 确认游戏版本 ≥ 0.111.0（本模组无前置依赖，开箱即用）
+1. 确认游戏版本 ≥ 0.107.1（**正式版 v0.107.1 可用**；测试分支 v0.111.0 同一份文件兼容。本模组无前置依赖，开箱即用）
 2. 把 `MCMonsters` 文件夹（含 `MCMonsters.json`、`MCMonsters.pck`、`MCMonsters.dll`）放入：
    ```
    <游戏目录>\mods\MCMonsters\
@@ -57,23 +57,36 @@
 
 ## 开发调试
 
-游戏内按 **Shift+8** 打开控制台：
+游戏内按 **Shift+8** 打开控制台。
+
+注意：**正式版 v0.107.1 没有 `fight`（直接进入指定遭遇）和 `act`（跳幕）命令**——这两个命令是测试分支后续版本才加的。正式版可用的常用命令：
+
+```
+room <id>                跳到指定房间
+travel                   跳到地图上任意房间
+kill all                 全灭敌人
+heal                     回满血
+godmode                  无敌
+unlock all               解锁全部内容
+```
+
+调试遭遇池建议直接新开一局多打几层，或临时在 mod 里加一个 `AbstractConsoleCmd` 子类（游戏的 `DevConsole` 会自动发现 mod 程序集里的命令子类，0.107.1 也支持），发布前删掉即可。
+
+以下为**测试分支 v0.111.0** 才可用的命令，仅供对照：
 
 ```
 act 3                    跳到第三幕
 fight shulker_pair       直接进入指定遭遇
-kill all                 全灭敌人
-heal                     回满血
-godmode                  无敌
 ```
 
-主要遭遇 ID：`zombie_solo` `skeleton_solo` `spider_pair` `creeper_skeleton` `warden_boss` `blaze_pair` `zombie_piglin_pair` `wither_skeleton_pair` `piglin_brute_solo` `ghast_elite` `wither_boss_encounter` `enderman_pair` `shulker_pair` `pillager_pair` `witch_pair` `giant_elite` `pillager_raid_elite` `ender_dragon_boss`
+主要遭遇 ID（配合 beta 的 `fight` 命令使用）：`zombie_solo` `skeleton_solo` `spider_pair` `creeper_skeleton` `warden_boss` `blaze_pair` `zombie_piglin_pair` `wither_skeleton_pair` `piglin_brute_solo` `ghast_elite` `wither_boss_encounter` `enderman_pair` `shulker_pair` `pillager_pair` `witch_pair` `giant_elite` `pillager_raid_elite` `ender_dragon_boss`
 
 ## 已知限制
 
 - 潜影贝「闭壳/开壳」的立绘切换未实现（Spine 引擎不支持持久换皮），仅保留壳甲机制与 BUFF 图标
 - 音效：pck 内音频文件的 import 链仍在修复中（当前版本音效可能不播放）
 - 三幕 BOSS 的跑图记录图标（run history）显示为空白
+- 本版以**正式版 v0.107.1** 为验证平台；测试分支 v0.111.0 用的是同一份 DLL（两版相关 API 已核对一致），但尚未在 beta 分支实机跑过
 
 ## 技术说明
 
@@ -81,9 +94,12 @@ godmode                  无敌
 - 贴图加载：完全复刻官方 pck 的 import 链——`<怪>.png.import` remap 到 `.godot/imported/<怪>.png-<hash>.ctex`（56 字节官方头 + 无损 WebP），`.spatlas` 内写入 `source_path`，Spine 运行时据此把页面名解析成 `res://animations/monsters/<怪>/<怪>.png` 再由 `ResourceLoader` 命中 ctex。全程不需要游戏根目录散图，也不需要写权限。
 - BUFF 图标：官方 `power_atlas.tpsheet` 原样使用，**严禁在 mod pck 里覆写官方图集文件**；16 个自定义 BUFF 图标走游戏内置兜底路径 `res://images/powers/<id>.png`（配好 `.png.import` → `.ctex` 即可）
 - 美术：全部怪物为自绘 Spine 4.2.43 双帧骨架（idle/攻击/受击/死亡），由 `tools/ArtGen` 生成
+- 伤害修正（恶魂免疫 / 潜影贝壳甲 / 末影龙天空之翼）：**不用 `AbstractModel.ModifyDamageMultiplicative` 重写**（该虚方法在 0.107.x 是 5 参数、0.111.x 是 6 参数，一份 DLL 无法同时兼容），改为 Harmony 补丁挂在两版参数一致的 `Hook.ModifyDamage` 上，按受击者身上的力量修正最终伤害；补丁参数必须按名字声明，不能用 `object[] __args`（该方法带 `out` 参数，用 `__args` 会导致 out 值丢失、`AfterModifyingDamageAmount` 收到 null 崩溃）
 - 构建：`build.ps1`（需要 .NET 9 SDK；`tools/verify_pck.ps1` 可离线校验 pck 内 19 只怪的贴图 import 链）
 
 ## 版本
+
+**1.6.0** — 支持游戏**正式版 v0.107.1**（此前只支持测试分支 0.111.0）。改动：恶魂/潜影贝/末影龙的伤害修正从 `ModifyDamageMultiplicative` 重写改为 `Hook.ModifyDamage` 后置补丁，一份 DLL 同时兼容 0.107.x 与 0.111.x；清单 `min_game_version` 降为 `0.107.1`。已在正式版实机验证：模组加载、19/19 怪物贴图、16/16 BUFF 图标、三幕遭遇池注入、僵尸/恶魂/潜影贝战斗、恶魂伤害归零与潜影贝壳甲减半。
 
 **1.5.3** — 修复状态/BUFF 图标全部消失：删除旧版塞进 pck 的 `power_atlas.tpsheet` 覆写（游戏 0.111.0 重排官方图集后旧 region 全部错位/越界），自定义 BUFF 图标改走官方兜底 png 路径。
 

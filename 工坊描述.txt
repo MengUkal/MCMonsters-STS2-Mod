@@ -47,7 +47,7 @@
 [*]启动游戏，在「模组配置」中确认已启用
 [*]新开一局即可
 [/list]
-游戏版本要求：[b]≥ 0.111.0[/b]。无任何前置依赖。
+游戏版本要求：[b]正式版 v0.107.1 起[/b]（测试分支 v0.111.0 也可使用同一版本模组）。无任何前置依赖。
 
 [hr][/hr]
 [h2]❓ 常见问题[/h2]
@@ -63,6 +63,9 @@ A：都不需要。19 张怪物贴图已按官方资源格式打包进模组本�
 [b]Q：可以在存档中途移除模组吗？[/b]
 A：不建议。存档里会记录 MC 遭遇 ID，移除后可能导致读档异常，请在整套流程结束后再移除。
 
+[b]Q：从「测试分支」切回正式版后游戏崩溃 / 存档丢失怎么办？[/b]
+A：这是游戏自身的版本兼容问题：正式版读不了测试分支写出的存档，可能直接崩溃（存档会被隔离成 *.FUT.corrupt）。切换分支前请先备份存档；本模组同一份文件已同时兼容正式版和测试分支，不需要为切换版本更换模组文件。
+
 [hr][/hr]
 [h2]📌 已知限制 & 后续计划[/h2]
 [list]
@@ -73,7 +76,7 @@ A：不建议。存档里会记录 MC 遭遇 ID，移除后可能导致读档异
 
 [hr][/hr]
 [h2]English[/h2]
-Bring Minecraft monsters into Slay the Spire 2 — [b]19 monsters and 25 encounters[/b] across all 3 acts, sharing the encounter pools with the official content. Hand-drawn Spine animations, original mechanics (punish-pass, perfect-block puzzle, load-interrupt, heal-interrupt, shell damage reduction, multi-hit counter) and full zhs/eng localization. All textures are bundled inside the mod: no dependencies, no extra files. Requires game version 0.111.0 or newer.
+Bring Minecraft monsters into Slay the Spire 2 — [b]19 monsters and 25 encounters[/b] across all 3 acts, sharing the encounter pools with the official content. Hand-drawn Spine animations, original mechanics (punish-pass, perfect-block puzzle, load-interrupt, heal-interrupt, shell damage reduction, multi-hit counter) and full zhs/eng localization. All textures are bundled inside the mod: no dependencies, no extra files. Requires game version 0.107.1 or newer (the same build also works on the 0.111.0 beta branch).
 
 [hr][/hr]
 作者：MengUkal
