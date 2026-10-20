@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models;
 using HarmonyLib;
 
@@ -6,15 +8,13 @@ namespace MCMonsters.Patches;
 
 /// <summary>
 /// 把MC遭遇注入各幕遭遇池。
-/// Act1弱怪池（IsWeak=true）：僵尸 → 骷髅 → 双蜘蛛
-/// Act1强怪池（IsWeak=false）：僵尸+骷髅+蜘蛛 → 苦力怕+骷髅
-/// Act2池：双烈焰人 / 双僵尸猪人 / 双凋零骷髅 / 猪灵蛮兵
-/// Act3池：双末影人 / 双潜影贝 / 双女巫 / 双掠夺者
-/// 注：单怪版 *Solo 均不进池（仅控制台测试用）。
+/// 每幕首次生成池时会打印一次诊断日志（排查"遇不到怪物"用）。
 /// </summary>
 [HarmonyPatch]
 public static class ActEncounterPatches
 {
+    private static readonly HashSet<int> _loggedActs = new HashSet<int>();
+
     [HarmonyPostfix]
     [HarmonyPatch(typeof(ActModel), "get_AllEncounters")]
     private static void InjectMcEncounters(ActModel __instance, ref IEnumerable<EncounterModel> __result)
@@ -23,14 +23,11 @@ public static class ActEncounterPatches
         {
             __result = __result.Concat(new EncounterModel[]
             {
-                // 弱怪池（IsWeak=true，顺序即用户指定的从左到右）
                 ModelDb.Encounter<Encounters.ZombieSolo>(),
                 ModelDb.Encounter<Encounters.SkeletonSolo>(),
                 ModelDb.Encounter<Encounters.SpiderPair>(),
-                // 强怪池（IsWeak=false）
                 ModelDb.Encounter<Encounters.ZombieSkeletonSpider>(),
                 ModelDb.Encounter<Encounters.CreeperSkeleton>(),
-                // 精英与BOSS（之前漏加！）
                 ModelDb.Encounter<Encounters.ChickenJockeyElite>(),
                 ModelDb.Encounter<Encounters.WardenBoss>()
             });
@@ -44,12 +41,10 @@ public static class ActEncounterPatches
                 ModelDb.Encounter<Encounters.WitherSkeletonPair>(),
                 ModelDb.Encounter<Encounters.PiglinBruteSolo>(),
                 ModelDb.Encounter<Encounters.PiglinBrutePair>(),
-                // 组合遭遇
                 ModelDb.Encounter<Encounters.BlazeWitherSkeleton>(),
                 ModelDb.Encounter<Encounters.WitherSkeletonTriple>(),
                 ModelDb.Encounter<Encounters.BlazeZombiePiglin>(),
                 ModelDb.Encounter<Encounters.ZombiePiglinWitherSkeleton>(),
-                // 精英与BOSS（之前漏加！）
                 ModelDb.Encounter<Encounters.GhastElite>(),
                 ModelDb.Encounter<Encounters.WitherBossEncounter>()
             });
@@ -62,14 +57,31 @@ public static class ActEncounterPatches
                 ModelDb.Encounter<Encounters.ShulkerPair>(),
                 ModelDb.Encounter<Encounters.WitchPair>(),
                 ModelDb.Encounter<Encounters.PillagerPair>(),
-                // 精英与BOSS
                 ModelDb.Encounter<Encounters.GiantElite>(),
                 ModelDb.Encounter<Encounters.PillagerRaidElite>(),
                 ModelDb.Encounter<Encounters.EnderDragonBoss>()
             });
         }
+
+        // 诊断：每幕首次生成池时打印注入结果（排查"遇不到怪物"问题用）
+        try
+        {
+            if (_loggedActs.Add(__instance.Index))
+            {
+                var list = __result.ToList();
+                var mc = list.Where(e =>
+                    e.Id.Entry.StartsWith("ZOMBIE") || e.Id.Entry.StartsWith("SKELETON") ||
+                    e.Id.Entry.StartsWith("SPIDER") || e.Id.Entry.StartsWith("CREEPER") ||
+                    e.Id.Entry.StartsWith("CHICKEN") || e.Id.Entry.StartsWith("WARDEN") ||
+                    e.Id.Entry.StartsWith("BLAZE") || e.Id.Entry.StartsWith("WITHER") ||
+                    e.Id.Entry.StartsWith("PIGLIN") || e.Id.Entry.StartsWith("GHAST") ||
+                    e.Id.Entry.StartsWith("ENDER") || e.Id.Entry.StartsWith("SHULKER") ||
+                    e.Id.Entry.StartsWith("WITCH") || e.Id.Entry.StartsWith("PILLAGER") ||
+                    e.Id.Entry.StartsWith("GIANT") || e.Id.Entry.StartsWith("RAID"));
+                Log.Info("[MCMonsters] Act" + __instance.Index + " pool injected: total=" + list.Count
+                    + " mc=" + mc.Count() + " -> " + string.Join(" | ", mc.Select(e => e.Id.Entry)));
+            }
+        }
+        catch { /* 诊断日志失败不影响注入 */ }
     }
 }
-
-
-
