@@ -1,0 +1,83 @@
+[h1]MC怪物 / Minecraft Monsters[/h1]
+
+把《我的世界》的经典怪物搬进《杀戮尖塔2》。
+[b]19 只怪物 · 25 种遭遇 · 覆盖全部三幕[/b]，与官方怪物同池竞技。
+
+[hr][/hr]
+[h2]📖 怪物图鉴[/h2]
+
+[b]【第一幕 · 7 种遭遇】[/b]
+· 僵尸 —— 斩击 / 撕咬 / 低吼（叠力量）
+· 骷髅 —— 精准射击：未被格挡的伤害翻倍
+· 蜘蛛 —— 扑击 / 网陷阱 / 攀爬格挡
+· 苦力怕 —— 3 回合嘶嘶蓄力 → 30 点全体爆炸（含自爆）
+· [i]精英[/i] 鸡骑士 —— 双命召唤：先杀鸡，骑士复活再战
+· [i]BOSS[/i] 监守者 —— 【警觉】你空过回合，它就会变强
+
+[b]【第二幕 · 11 种遭遇】[/b]
+· 凋零骷髅 —— 未被格挡的攻击给你 1 层凋零（持续掉血）
+· 烈焰人 —— 每次攻击反伤；火球 + 翱翔减伤
+· 僵尸猪人 —— 中立蓄怒 / 被激怒反击的双状态
+· 猪灵蛮兵 —— 纯物理重装
+· [i]精英[/i] 恶魂 —— 【完美格挡解谜】只有足额格挡火球才能反伤
+· [i]BOSS[/i] 凋灵 —— 半血获得 99 层人工制品
+
+[b]【第三幕 · 7 种遭遇】[/b]
+· 末影人 —— 【空间闪避】每次受攻击 +5 格挡（每回合 2 次）
+· 潜影贝 —— 【壳甲】闭壳期间所受伤害减半
+· 掠夺者 —— 【装填中断】装填后受 12+ 伤害 → 攻击取消
+· 女巫 —— 【炼金术】单次 15+ 伤害塞你 1 张灼伤；喝药可打断
+· [i]精英[/i] 巨人 —— 抬脚蓄力 → 践踏 35（屏幕震动）
+· [i]精英[/i] 掠夺者突袭 —— 3 掠夺者 + 袭击队长（号令 / 狙击 / 压制）
+· [i]BOSS[/i] 末影龙 —— 三形态，总计 600 血
+
+[hr][/hr]
+[h2]✨ 特色[/h2]
+[list]
+[*]独特互动机制：空过惩罚、完美格挡解谜、装填打断、治疗打断、壳甲减伤、多段攻击克星
+[*]遭遇按强度分入弱怪池 / 强怪池，精英与 BOSS 和官方同池随机
+[*]简中 + 英文双语本地化，自定义 BUFF 图标齐全
+[*][b]贴图全部内置在模组包内：不需要前置模组，不需要往游戏目录放任何文件[/b]
+[/list]
+
+[hr][/hr]
+[h2]🔧 安装[/h2]
+[list]
+[*]在 Steam 创意工坊订阅本模组
+[*]启动游戏，在「模组配置」中确认已启用
+[*]新开一局即可
+[/list]
+游戏版本要求：[b]≥ 0.111.0[/b]。无任何前置依赖。
+
+[hr][/hr]
+[h2]❓ 常见问题[/h2]
+[b]Q：为什么前几局遇不到 MC 的 BOSS？[/b]
+A：游戏有「BOSS 首次发现顺序」保护：只要该幕还有没见过的官方 BOSS，BOSS 就会被固定成官方 BOSS。等你见过该幕全部官方 BOSS 之后，MC BOSS 才会以 1/4 的概率加入 BOSS 池（二层、三层同理）。
+
+[b]Q：精英怪也很难遇到？[/b]
+A：每层精英房间数量有限，且精英池与官方共享。一层（官方 3 + MC 1）、二层（官方 3 + MC 1）每个精英房约 25% 出 MC 精英；三层（官方 3 + MC 2）约 40%。普通怪和弱怪则常见得多。
+
+[b]Q：需要前置模组吗？要手动放贴图吗？[/b]
+A：都不需要。19 张怪物贴图已按官方资源格式打包进模组本体，订阅即用。
+
+[b]Q：可以在存档中途移除模组吗？[/b]
+A：不建议。存档里会记录 MC 遭遇 ID，移除后可能导致读档异常，请在整套流程结束后再移除。
+
+[hr][/hr]
+[h2]📌 已知限制 & 后续计划[/h2]
+[list]
+[*]三幕 BOSS 的跑图历史小图标暂缺（显示为空白）
+[*]潜影贝「开壳 / 闭壳」立绘切换未实现（保留壳甲机制 + BUFF 提示）
+[*]怪物音效仍在补全中
+[/list]
+
+[hr][/hr]
+[h2]English[/h2]
+Bring Minecraft monsters into Slay the Spire 2 — [b]19 monsters and 25 encounters[/b] across all 3 acts, sharing the encounter pools with the official content. Hand-drawn Spine animations, original mechanics (punish-pass, perfect-block puzzle, load-interrupt, heal-interrupt, shell damage reduction, multi-hit counter) and full zhs/eng localization. All textures are bundled inside the mod: no dependencies, no extra files. Requires game version 0.111.0 or newer.
+
+[hr][/hr]
+作者：MengUkal
+源码 / 反馈：https://github.com/MengUkal/MCMonsters-STS2-Mod
+QQ：2107820448
+
+自己的话：感谢AI大人，感谢AI大人，随手做的粗制滥造小作品，还望大家喜欢，如果有任何意见请加QQ来反馈，阿里嘎多
