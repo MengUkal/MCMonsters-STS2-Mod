@@ -25,6 +25,5 @@ public static class ModEntry
         harmony.PatchAll(Assembly.GetExecutingAssembly());
         int patchCount = Harmony.GetAllPatchedMethods().Count();
         Log.Info($"[{ModId}] Init complete: {patchCount} patched methods. MC encounters injected.");
-
     }
 }

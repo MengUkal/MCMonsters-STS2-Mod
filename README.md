@@ -72,17 +72,20 @@ godmode                  无敌
 ## 已知限制
 
 - 潜影贝「闭壳/开壳」的立绘切换未实现（Spine 引擎不支持持久换皮），仅保留壳甲机制与 BUFF 图标
-- 部分怪物音效为 MC 原版短音效，BOSS 音效（凋灵/末影龙/监守者）取自 Java 版音效包
+- 音效：pck 内音频文件的 import 链仍在修复中（当前版本音效可能不播放）
 - 三幕 BOSS 的跑图记录图标（run history）显示为空白
 
 ## 技术说明
 
 - 加载架构：`MCMonsters.dll`（Harmony 补丁 + 怪物模型/力量/遭遇）+ `MCMonsters.pck`（Spine 美术资源 + 音效 + 图标 + 本地化）
 - 贴图加载：完全复刻官方 pck 的 import 链——`<怪>.png.import` remap 到 `.godot/imported/<怪>.png-<hash>.ctex`（56 字节官方头 + 无损 WebP），`.spatlas` 内写入 `source_path`，Spine 运行时据此把页面名解析成 `res://animations/monsters/<怪>/<怪>.png` 再由 `ResourceLoader` 命中 ctex。全程不需要游戏根目录散图，也不需要写权限。
+- BUFF 图标：官方 `power_atlas.tpsheet` 原样使用，**严禁在 mod pck 里覆写官方图集文件**；16 个自定义 BUFF 图标走游戏内置兜底路径 `res://images/powers/<id>.png`（配好 `.png.import` → `.ctex` 即可）
 - 美术：全部怪物为自绘 Spine 4.2.43 双帧骨架（idle/攻击/受击/死亡），由 `tools/ArtGen` 生成
 - 构建：`build.ps1`（需要 .NET 9 SDK；`tools/verify_pck.ps1` 可离线校验 pck 内 19 只怪的贴图 import 链）
 
 ## 版本
+
+**1.5.3** — 修复状态/BUFF 图标全部消失：删除旧版塞进 pck 的 `power_atlas.tpsheet` 覆写（游戏 0.111.0 重排官方图集后旧 region 全部错位/越界），自定义 BUFF 图标改走官方兜底 png 路径。
 
 **1.5.2** — 修复「19 张怪物 PNG 必须放到游戏根目录」的垃圾设计：贴图改为 pck 内置 import 链，订阅即用、无需散图；移除 DLL 自安装/写游戏目录逻辑；适配游戏 0.111.0 API（`ModifyDamageMultiplicative` 新增 `CardPlay` 参数）；修复 `mc_textures` 双前缀导致的僵尸等贴图丢失；pck 体积 6.25MB → 4.92MB。
 
