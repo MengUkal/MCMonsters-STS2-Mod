@@ -1,3 +1,4 @@
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.Localization;
@@ -22,7 +23,7 @@ public sealed class ShulkerShellPower : PowerModel
 
     public override PowerStackType StackType => PowerStackType.Single;
 
-    public override decimal ModifyDamageMultiplicative(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource)
+    public override decimal ModifyDamageMultiplicative(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource, CardPlay? cardPlay)
     {
         // 壳甲期间受到的攻击伤害减半
         if (target == base.Owner && props.IsPoweredAttack())

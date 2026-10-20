@@ -14,10 +14,19 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <!-- 游戏安装目录（引用其程序集编译，但不复制进产物） -->
-    <GameDir>D:\steamwork\steamapps\common\Slay the Spire 2</GameDir>
+    <!-- 游戏安装目录（引用其程序集编译，但不复制进产物）。
+         优先级：命令行 -p:GameDir=... > 环境变量 STS2_DIR > 常见默认路径。
+         换机器时只需设置 STS2_DIR，例如：
+           setx STS2_DIR "D:\steamwork\steamapps\common\Slay the Spire 2" -->
+    <GameDir Condition="'$(GameDir)' == '' and '$(STS2_DIR)' != ''">$(STS2_DIR)</GameDir>
+    <GameDir Condition="'$(GameDir)' == '' and Exists('E:\SteamLibrary\steamapps\common\Slay the Spire 2\data_sts2_windows_x86_64\sts2.dll')">E:\SteamLibrary\steamapps\common\Slay the Spire 2</GameDir>
+    <GameDir Condition="'$(GameDir)' == '' and Exists('D:\steamwork\steamapps\common\Slay the Spire 2\data_sts2_windows_x86_64\sts2.dll')">D:\steamwork\steamapps\common\Slay the Spire 2</GameDir>
     <GameData>$(GameDir)\data_sts2_windows_x86_64</GameData>
   </PropertyGroup>
+
+  <Target Name="CheckGameDir" BeforeTargets="ResolveReferences" Condition="!Exists('$(GameData)\sts2.dll')">
+    <Error Text="找不到游戏程序集 $(GameData)\sts2.dll。请设置环境变量 STS2_DIR 或传 -p:GameDir=&quot;&lt;游戏目录&gt;&quot;。" />
+  </Target>
 
   <ItemGroup>
     <Reference Include="sts2">

@@ -1,4 +1,4 @@
-﻿$ErrorActionPreference = 'Stop'
+$ErrorActionPreference = 'Stop'
 $root = 'D:\塔2MOD\MCMonsters'
 $ver = '1.5.0'
 $pkgName = "MCMonsters_v$ver"
@@ -61,7 +61,7 @@ A: 数值均在源码 Monsters\ 目录下的各怪物类里，可自行编译修
 - 音效：Minecraft 原版音效
 - 前置框架：BaseLib (Alchyr)
 
-作者：Wanjiadongli
+作者：MengUkal
 '@
 Set-Content (Join-Path $stage '安装说明.txt') $readme -Encoding UTF8
 

@@ -1,4 +1,4 @@
-mc_textures/skeleton.png
+skeleton.png
 size:600,1000
 format:RGBA8888
 filter:Linear,Linear

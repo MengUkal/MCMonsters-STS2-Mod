@@ -1,0 +1,12 @@
+{
+  "id": "MCMonsters",
+  "name": "MC怪物 / Minecraft Monsters",
+  "author": "MengUkal",
+  "description": "将我的世界中的经典怪物加入杀戮尖塔2！19只怪物、25种遭遇，覆盖全部三幕。一层：僵尸/骷髅/蜘蛛/苦力怕+监守者BOSS；二层：烈焰人/僵尸猪人/凋零骷髅/猪灵蛮兵+凋灵BOSS；三层：末影人/潜影贝/掠夺者/女巫+末影龙BOSS；精英：鸡骑士/恶魂/巨人/掠夺者突袭。贴图已内置，无需任何前置模组、无需手动放文件。Minecraft monsters for Slay the Spire 2!",
+  "version": "1.5.2",
+  "has_pck": true,
+  "has_dll": true,
+  "affects_gameplay": true,
+  "min_game_version": "0.111.0",
+  "dependencies": []
+}

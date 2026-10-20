@@ -1,4 +1,4 @@
-﻿$ErrorActionPreference = 'Stop'
+$ErrorActionPreference = 'Stop'
 $root = 'D:\塔2MOD\MCMonsters'
 $ver = '1.5.0'
 $gameMods = 'D:\steamwork\steamapps\common\Slay the Spire 2\mods\MCMonsters'
@@ -65,7 +65,7 @@ $readme = @'
 - 美术：基于 MC 官方材质重绘的 Spine 动画
 - 音效：Minecraft 原版音效
 
-作者：Wanjiadongli
+作者：MengUkal
 '@
 Set-Content (Join-Path $stage '安装说明.txt') $readme -Encoding UTF8
 $zip = Join-Path $root "platform_package\$pkgName.zip"

@@ -1,4 +1,4 @@
-mc_textures/zombie_piglin.png
+zombie_piglin.png
 size:600,500
 format:RGBA8888
 filter:Linear,Linear

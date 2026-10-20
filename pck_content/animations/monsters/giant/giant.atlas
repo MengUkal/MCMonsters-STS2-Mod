@@ -1,4 +1,4 @@
-mc_textures/giant.png
+giant.png
 size:600,500
 format:RGBA8888
 filter:Linear,Linear

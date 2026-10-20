@@ -19,8 +19,6 @@ public static class ActEncounterPatches
     [HarmonyPatch(typeof(ActModel), "get_AllEncounters")]
     private static void InjectMcEncounters(ActModel __instance, ref IEnumerable<EncounterModel> __result)
     {
-        // 贴图未就绪时跳过注入：避免怪物立绘缺失导致崩溃（安全降级）
-        if (!MCMonsters.ModEntry.TexturesReady) return;
         if (__instance.Index == 0)
         {
             __result = __result.Concat(new EncounterModel[]

@@ -1,4 +1,4 @@
-﻿"workshopitem"
+"workshopitem"
 {
     "appid"             "2868840"
     "publishedfileid"   "0"
@@ -6,7 +6,6 @@
     "previewfile"       "D:\塔2MOD\MCMonsters\workshop_preview.png"
     "visibility"        "2"
     "title"             "MC怪物 / Minecraft Monsters"
-    "description"       "把《我的世界》的经典怪物加入《杀戮尖塔2》！19只怪物、21种遭遇，覆盖全部三幕。\n\n【第一幕】僵尸 / 骷髅 / 蜘蛛 / 苦力怕 + 精英鸡骑士 + BOSS监守者（空过回合惩罚机制）\n【第二幕】凋零骷髅 / 烈焰人 / 僵尸猪人 / 猪灵蛮兵 + 精英恶魂（完美格挡解谜）+ BOSS凋灵（半血99人工制品）\n【第三幕】末影人 / 潜影贝 / 掠夺者 / 女巫 + 精英巨人 / 掠夺者突袭 + BOSS末影龙（三形态600血）\n\n【特色】\n· 每只怪都有MC原版音效与专属攻击特效\n· 大量互动机制：空过惩罚、完美格挡解谜、装填打断、治疗打断、壳甲减伤、多段攻击克星\n· 遭遇按强度分入弱怪池/强怪池，与官方怪物同台竞技\n· 全中文+英文本地化，18个自定义BUFF均有图标\n\n【安装】\n订阅后在游戏内启用即可，无需任何前置模组。\n\n作者：Wanjiadongli"
-    "changenote"        "首次发布"
+    "description"       "把《我的世界》的怪物搬进《杀戮尖塔2》！\n\n19 只怪物 · 25 种遭遇 · 覆盖全部三幕，与官方怪物同池竞技。\n\n【第一幕】\n僵尸 / 骷髅 / 蜘蛛 / 苦力怕\n· 精英：鸡骑士（先杀鸡，骑士复活再战）\n· BOSS：监守者（你空过回合就会被惩罚）\n\n【第二幕】\n凋零骷髅 / 烈焰人 / 僵尸猪人 / 猪灵蛮兵\n· 精英：恶魂（完美格挡解谜，只有足额格挡火球才能反伤）\n· BOSS：凋灵（半血获得 99 层人工制品）\n\n【第三幕】\n末影人 / 潜影贝 / 掠夺者 / 女巫\n· 精英：巨人、掠夺者突袭\n· BOSS：末影龙（三形态，600 血）\n\n【特色】\n· 每只怪都有自绘 Spine 动画 + MC 原版音效\n· 独特机制：空过惩罚、完美格挡解谜、装填打断、治疗打断、壳甲减伤、多段攻击克星\n· 遭遇按强度分入弱怪池/强怪池，融入官方游戏节奏\n· 中英双语本地化，自定义 BUFF 图标齐全\n· 贴图全部内置，订阅即用，不需要往游戏目录放任何文件\n\n【安装】\n订阅后在游戏内启用即可。无需任何前置模组。\n游戏版本 ≥ 0.111.0。\n\n作者：MengUkal\n源码：https://github.com/MengUkal/MCMonsters-STS2-Mod\n\n---\nBring Minecraft monsters into Slay the Spire 2!\n19 monsters, 25 encounters across all 3 acts — with original mechanics, Minecraft sounds and hand-drawn Spine animations. No dependencies, no extra files. Just subscribe and play."
+    "changenote"        "v1.5.2：贴图改为模组包内置（不再需要把19张PNG放到游戏根目录）；适配游戏0.111.0"
 }
-

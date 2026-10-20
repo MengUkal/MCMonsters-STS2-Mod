@@ -10,11 +10,41 @@ using System.Security.Cryptography;
 // 僵尸：MC皮肤UV拼合立绘；骷髅：原版贴图3D盒子等距渲染
 // ============================================================================
 
-var outDir = args.Length > 0 && args[0] != "preview" && args[0] != "packonly" ? args[0]
-    : @"D:\塔2MOD\MCMonsters\pck_content\animations\monsters\zombie";
+// 仓库根目录：优先环境变量 MCMONSTERS_ROOT，其次从可执行文件位置向上找 pck_content
+var repoRoot = ResolveRepoRoot();
+
+static string ResolveRepoRoot()
+{
+    string? env = Environment.GetEnvironmentVariable("MCMONSTERS_ROOT");
+    if (!string.IsNullOrEmpty(env) && Directory.Exists(env)) return env;
+    var dir = new DirectoryInfo(AppContext.BaseDirectory);
+    while (dir != null)
+    {
+        if (Directory.Exists(Path.Combine(dir.FullName, "pck_content")))
+            return dir.FullName;
+        dir = dir.Parent;
+    }
+    return Directory.GetCurrentDirectory();
+}
+
+// packonly 模式：只重新打包 pck，跳过所有素材生成（可在任意路径的仓库里构建）
+bool packOnly = args.Length > 0 && args[0] == "packonly";
+if (packOnly)
+{
+    string contentDir = Path.Combine(repoRoot, "pck_content");
+    string outPck = Path.Combine(repoRoot, "deploy", "MCMonsters", "MCMonsters.pck");
+    Directory.CreateDirectory(Path.GetDirectoryName(outPck)!);
+    Console.WriteLine("仓库根: " + repoRoot);
+    Console.WriteLine("\n=== 组装 MCMonsters.pck ===");
+    ModPckAssembler.Assemble(contentDir, outPck);
+    return;
+}
+
+var outDir = args.Length > 0 && args[0] != "preview" ? args[0]
+    : Path.Combine(repoRoot, "pck_content", "animations", "monsters", "zombie");
 Directory.CreateDirectory(outDir);
 
-var userSkin = @"D:\塔2MOD\僵尸.png";
+var userSkin = Path.Combine(repoRoot, "zombie_skin.png");
 
 // ---- 通用辅助（全局作用域）----
 JsonArray TransFrames(params (double t, double x, double y)[] kv)
@@ -36,12 +66,9 @@ var jsonOpts = new JsonSerializerOptions { Encoder = JavaScriptEncoder.UnsafeRel
 // preview模式：只拼合立绘预览
 if (args.Length > 0 && args[0] == "preview")
 {
-    SpriteComposer.Compose(userSkin, @"D:\塔2MOD\zombie_composed_preview.png", 6);
+    SpriteComposer.Compose(userSkin, Path.Combine(repoRoot, "zombie_composed_preview.png"), 6);
     return;
 }
-
-// packonly模式：跳过生成，只重新打包
-bool packOnly = args.Length > 0 && args[0] == "packonly";
 
 if (!packOnly)
 {
@@ -3797,37 +3824,16 @@ Console.WriteLine("OK scenes/creature_visuals/warden.tscn");
 var captainTscn = BuildCreatureTscn(@"D:\塔2MOD\MCMonsters\pck_content\animations\monsters\pillager\pillager_base.png", "raid_captain", 300.0);
 File.WriteAllText(@"D:\塔2MOD\MCMonsters\pck_content\scenes\creature_visuals\raid_captain.tscn", captainTscn);
 Console.WriteLine("OK scenes/creature_visuals/raid_captain.tscn（袭击队长·掠夺者放大版）");
-// ===== 图集页名全局改写：相对路径 -> res:// 绝对路径（免去游戏根目录裸图）=====
-try
-{
-    var monstersRoot2 = @"D:\塔2MOD\MCMonsters\pck_content\animations\monsters";
-    int rewrote = 0;
-    foreach (var dir2 in Directory.GetDirectories(monstersRoot2))
-    {
-        string slug2 = Path.GetFileName(dir2);
-        foreach (var atlasFile2 in Directory.GetFiles(dir2, "*.atlas"))
-        {
-            var lines2 = File.ReadAllLines(atlasFile2);
-            if (lines2.Length > 0)
-            {
-                string page2 = lines2[0].Trim();
-                {
-                    string fileName2 = page2.StartsWith("res://") ? Path.GetFileName(page2) : page2;
-                    lines2[0] = "mc_textures/" + fileName2;
-                    File.WriteAllLines(atlasFile2, lines2);
-                    rewrote++;
-                }
-            }
-        }
-    }
-    Console.WriteLine($"OK 图集页名改写: {rewrote} 个 -> res:// 路径");
-}
-catch (Exception ex2) { Console.WriteLine("图集页名改写失败: " + ex2.Message); }
+
+// 说明：图集页面名统一在 ModPckAssembler.NormalizeAtlasPage 里规范成 "<怪物>.png"，
+// 页名保持相对文件名 + spatlas 写入 source_path，Spine 才会走 res:// 的 .ctex import 链，
+// 不再需要游戏根目录裸图（旧版在此处把页名改成 mc_textures/ 的做法已废弃）。
+
 // ============================ 4. 组装 mod pck ============================
 if (args.Length > 1 || Environment.GetEnvironmentVariable("ARTGEN_PACK") == "1" || packOnly)
 {
-    string contentDir = @"D:\塔2MOD\MCMonsters\pck_content";
-    string outPck = @"D:\塔2MOD\MCMonsters\deploy\MCMonsters\MCMonsters.pck";
+    string contentDir = Path.Combine(repoRoot, "pck_content");
+    string outPck = Path.Combine(repoRoot, "deploy", "MCMonsters", "MCMonsters.pck");
     Directory.CreateDirectory(Path.GetDirectoryName(outPck)!);
     Console.WriteLine("\n=== 组装 MCMonsters.pck ===");
     ModPckAssembler.Assemble(contentDir, outPck);

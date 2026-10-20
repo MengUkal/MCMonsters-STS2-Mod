@@ -1,23 +1,18 @@
-﻿# MC怪物 / Minecraft Monsters — 杀戮尖塔2 Mod
+# MC怪物 / Minecraft Monsters — 杀戮尖塔2 Mod
 
-把《我的世界》的经典怪物加入《杀戮尖塔2》。共 **19 只怪物、21 种遭遇**，覆盖全部三幕。
+把《我的世界》的经典怪物加入《杀戮尖塔2》。共 **19 只怪物、25 种遭遇**，覆盖全部三幕。
 
 ## 安装方法
 
-1. 确认游戏版本 ≥ 0.107.1（本模组无前置依赖，开箱即用）
+1. 确认游戏版本 ≥ 0.111.0（本模组无前置依赖，开箱即用）
 2. 把 `MCMonsters` 文件夹（含 `MCMonsters.json`、`MCMonsters.pck`、`MCMonsters.dll`）放入：
    ```
    <游戏目录>\mods\MCMonsters\
    ```
-3. **把 19 个怪物贴图 PNG 放到游戏根目录**（`SlayTheSpire2.exe` 同级）：
-   ```
-   zombie.png  skeleton.png  creeper.png  chicken_jockey.png  spider.png
-   blaze.png  zombie_piglin.png  wither_skeleton.png  piglin_brute.png
-   ghast.png  wither_boss.png  enderman.png  shulker.png  ender_dragon.png
-   giant.png  pillager.png  witch.png  warden.png  raid_captain.png
-   ```
-   > 这是 Spine 动画的纹理加载依赖，缺失会导致怪物隐形或游戏崩溃
-4. 启动游戏，新开一局即可在遭遇池中遇到
+   > 创意工坊版本订阅后由游戏自动放入，无需手动操作
+3. 启动游戏，新开一局即可在遭遇池中遇到
+
+**不需要往游戏根目录放任何贴图文件。** 19 张怪物贴图已按官方资源格式（`.png.import` → `.ctex` 缓存 + atlas 的 `source_path`）完整打进 `MCMonsters.pck`，启动后直接从 `res://` 加载。
 
 ## 怪物图鉴
 
@@ -55,8 +50,8 @@
 ## 遭遇配置
 
 - **一层**：弱怪池3种 / 强怪池2种 / 精英1 / BOSS1
-- **二层**：弱怪池2种 / 强怪池6种 / 精英1 / BOSS1
-- **三层**：弱怪池1种 / 强怪池4种 / 精英2 / BOSS1
+- **二层**：弱怪池2种 / 强怪池7种 / 精英1 / BOSS1
+- **三层**：强怪池4种 / 精英2 / BOSS1
 
 官方池子与本 Mod 池子合并，按强度分级抽选。
 
@@ -83,10 +78,12 @@ godmode                  无敌
 ## 技术说明
 
 - 加载架构：`MCMonsters.dll`（Harmony 补丁 + 怪物模型/力量/遭遇）+ `MCMonsters.pck`（Spine 美术资源 + 音效 + 图标 + 本地化）
+- 贴图加载：完全复刻官方 pck 的 import 链——`<怪>.png.import` remap 到 `.godot/imported/<怪>.png-<hash>.ctex`（56 字节官方头 + 无损 WebP），`.spatlas` 内写入 `source_path`，Spine 运行时据此把页面名解析成 `res://animations/monsters/<怪>/<怪>.png` 再由 `ResourceLoader` 命中 ctex。全程不需要游戏根目录散图，也不需要写权限。
 - 美术：全部怪物为自绘 Spine 4.2.43 双帧骨架（idle/攻击/受击/死亡），由 `tools/ArtGen` 生成
-- 力量图标：覆写官方 `power_atlas.tpsheet` 注册表映射到官方图标；大图标（触发弹窗）用怪物头颅 PNG
+- 构建：`build.ps1`（需要 .NET 9 SDK；`tools/verify_pck.ps1` 可离线校验 pck 内 19 只怪的贴图 import 链）
 
 ## 版本
 
-**1.5.0** — 第三层全面重做（末影人/潜影贝/掠夺者/女巫/巨人/末影龙/袭击队长）、第二层遭遇扩充、全怪物音效、BUFF 图标补齐
+**1.5.2** — 修复「19 张怪物 PNG 必须放到游戏根目录」的垃圾设计：贴图改为 pck 内置 import 链，订阅即用、无需散图；移除 DLL 自安装/写游戏目录逻辑；适配游戏 0.111.0 API（`ModifyDamageMultiplicative` 新增 `CardPlay` 参数）；修复 `mc_textures` 双前缀导致的僵尸等贴图丢失；pck 体积 6.25MB → 4.92MB。
 
+**1.5.0** — 第三层全面重做（末影人/潜影贝/掠夺者/女巫/巨人/末影龙/袭击队长）、第二层遭遇扩充、全怪物音效、BUFF 图标补齐
