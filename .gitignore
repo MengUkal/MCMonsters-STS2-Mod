@@ -1,0 +1,31 @@
+﻿# ===== 构建产物（不进仓库）=====
+bin/
+obj/
+deploy/
+platform_package/
+workshop_content/
+*.dll
+*.pdb
+*.pck
+
+# ===== 下载的临时素材 =====
+tools/mc2014/
+tools/*.zip
+tools/power_atlas_official.png
+tools/*.txt
+*.log
+
+# ===== IDE / 系统 =====
+.vs/
+.idea/
+*.user
+*.suo
+Thumbs.db
+desktop.ini
+
+# ===== 游戏日志/截图 =====
+game_*.log
+game_*_err.log
+verify_*.png
+desk_*.png
+steamcmd_state*.png

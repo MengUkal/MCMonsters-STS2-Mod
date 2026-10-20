@@ -1,0 +1,284 @@
+{
+  "skeleton": {
+    "hash": "mcbrute001",
+    "spine": "4.2.43",
+    "x": -150,
+    "y": -260,
+    "width": 300,
+    "height": 520,
+    "images": "./",
+    "audio": "./"
+  },
+  "bones": [
+    {
+      "name": "root"
+    }
+  ],
+  "slots": [
+    {
+      "name": "full",
+      "bone": "root",
+      "attachment": "full",
+      "color": "ffffffff"
+    }
+  ],
+  "skins": [
+    {
+      "name": "default",
+      "attachments": {
+        "full": {
+          "full": {
+            "type": "region",
+            "x": 0,
+            "y": 250,
+            "width": 300,
+            "height": 500
+          },
+          "full_flash": {
+            "type": "region",
+            "x": 0,
+            "y": 250,
+            "width": 300,
+            "height": 500
+          }
+        }
+      }
+    }
+  ],
+  "animations": {
+    "idle_loop": {
+      "bones": {
+        "root": {
+          "translate": [
+            {
+              "time": 0,
+              "x": 0,
+              "y": 0
+            },
+            {
+              "time": 0.9,
+              "x": 0,
+              "y": -7
+            },
+            {
+              "time": 1.8,
+              "x": 0,
+              "y": 0
+            }
+          ],
+          "rotate": [
+            {
+              "time": 0,
+              "angle": 0
+            },
+            {
+              "time": 0.45,
+              "angle": 1
+            },
+            {
+              "time": 0.9,
+              "angle": 0
+            },
+            {
+              "time": 1.35,
+              "angle": -1
+            },
+            {
+              "time": 1.8,
+              "angle": 0
+            }
+          ]
+        }
+      }
+    },
+    "cast": {
+      "bones": {
+        "root": {
+          "rotate": [
+            {
+              "time": 0,
+              "angle": 0
+            },
+            {
+              "time": 0.25,
+              "angle": 2
+            },
+            {
+              "time": 0.5,
+              "angle": 2
+            },
+            {
+              "time": 0.7,
+              "angle": 0
+            }
+          ],
+          "translate": [
+            {
+              "time": 0,
+              "x": 0,
+              "y": 0
+            },
+            {
+              "time": 0.25,
+              "x": 6,
+              "y": 3
+            },
+            {
+              "time": 0.5,
+              "x": 6,
+              "y": 3
+            },
+            {
+              "time": 0.7,
+              "x": 0,
+              "y": 0
+            }
+          ]
+        }
+      }
+    },
+    "attack": {
+      "bones": {
+        "root": {
+          "rotate": [
+            {
+              "time": 0,
+              "angle": 0
+            },
+            {
+              "time": 0.14,
+              "angle": 7
+            },
+            {
+              "time": 0.26,
+              "angle": -13
+            },
+            {
+              "time": 0.42,
+              "angle": 4
+            },
+            {
+              "time": 0.68,
+              "angle": 0
+            }
+          ],
+          "translate": [
+            {
+              "time": 0,
+              "x": 0,
+              "y": 0
+            },
+            {
+              "time": 0.14,
+              "x": 22,
+              "y": 8
+            },
+            {
+              "time": 0.26,
+              "x": -55,
+              "y": 6
+            },
+            {
+              "time": 0.42,
+              "x": 18,
+              "y": 0
+            },
+            {
+              "time": 0.68,
+              "x": 0,
+              "y": 0
+            }
+          ]
+        }
+      }
+    },
+    "hurt": {
+      "bones": {
+        "root": {
+          "translate": [
+            {
+              "time": 0,
+              "x": 0,
+              "y": 0
+            },
+            {
+              "time": 0.08,
+              "x": 40,
+              "y": 0
+            },
+            {
+              "time": 0.16,
+              "x": -15,
+              "y": 0
+            },
+            {
+              "time": 0.26,
+              "x": 22,
+              "y": 0
+            },
+            {
+              "time": 0.35,
+              "x": 0,
+              "y": 0
+            }
+          ],
+          "rotate": [
+            {
+              "time": 0,
+              "angle": 0
+            },
+            {
+              "time": 0.08,
+              "angle": -3
+            },
+            {
+              "time": 0.2,
+              "angle": 3
+            },
+            {
+              "time": 0.35,
+              "angle": 0
+            }
+          ]
+        }
+      }
+    },
+    "die": {
+      "bones": {
+        "root": {
+          "rotate": [
+            {
+              "time": 0,
+              "angle": 0
+            },
+            {
+              "time": 0.6,
+              "angle": -88
+            },
+            {
+              "time": 0.95,
+              "angle": -88
+            }
+          ],
+          "translate": [
+            {
+              "time": 0,
+              "x": 0,
+              "y": 0
+            },
+            {
+              "time": 0.6,
+              "x": 55,
+              "y": -25
+            },
+            {
+              "time": 0.95,
+              "x": 60,
+              "y": -27
+            }
+          ]
+        }
+      }
+    }
+  }
+}

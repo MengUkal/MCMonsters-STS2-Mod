@@ -1,0 +1,13 @@
+skeleton.png
+size:600,1000
+format:RGBA8888
+filter:Linear,Linear
+repeat:none
+full
+bounds:0,0,300,500
+full_flash
+bounds:300,0,300,500
+full_draw
+bounds:0,500,300,500
+arrow
+bounds:300,500,140,140

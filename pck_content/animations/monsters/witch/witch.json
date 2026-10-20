@@ -1,0 +1,385 @@
+{
+  "skeleton": {
+    "hash": "mcwitch001",
+    "spine": "4.2.43",
+    "x": -150,
+    "y": -260,
+    "width": 300,
+    "height": 520,
+    "images": "./",
+    "audio": "./"
+  },
+  "bones": [
+    {
+      "name": "root"
+    },
+    {
+      "name": "potionBone",
+      "parent": "root",
+      "x": 0,
+      "y": 300
+    }
+  ],
+  "slots": [
+    {
+      "name": "full",
+      "bone": "root",
+      "attachment": "full",
+      "color": "ffffffff"
+    },
+    {
+      "name": "potion",
+      "bone": "potionBone"
+    }
+  ],
+  "skins": [
+    {
+      "name": "default",
+      "attachments": {
+        "potion": {
+          "potion": {
+            "type": "region",
+            "x": 0,
+            "y": 0,
+            "width": 140,
+            "height": 140
+          }
+        },
+        "full": {
+          "full": {
+            "type": "region",
+            "x": 0,
+            "y": 250,
+            "width": 300,
+            "height": 500
+          },
+          "full_flash": {
+            "type": "region",
+            "x": 0,
+            "y": 250,
+            "width": 300,
+            "height": 500
+          }
+        }
+      }
+    }
+  ],
+  "animations": {
+    "idle_loop": {
+      "bones": {
+        "root": {
+          "translate": [
+            {
+              "time": 0,
+              "x": 0,
+              "y": 0
+            },
+            {
+              "time": 0.9,
+              "x": 0,
+              "y": -8
+            },
+            {
+              "time": 1.8,
+              "x": 0,
+              "y": 0
+            }
+          ],
+          "rotate": [
+            {
+              "time": 0,
+              "angle": 0
+            },
+            {
+              "time": 0.45,
+              "angle": 1.5
+            },
+            {
+              "time": 0.9,
+              "angle": 0
+            },
+            {
+              "time": 1.35,
+              "angle": -1.5
+            },
+            {
+              "time": 1.8,
+              "angle": 0
+            }
+          ]
+        }
+      }
+    },
+    "cast": {
+      "bones": {
+        "root": {
+          "rotate": [
+            {
+              "time": 0,
+              "angle": 0
+            },
+            {
+              "time": 0.15,
+              "angle": -3
+            },
+            {
+              "time": 0.3,
+              "angle": 3
+            },
+            {
+              "time": 0.45,
+              "angle": -2
+            },
+            {
+              "time": 0.6,
+              "angle": 0
+            }
+          ],
+          "translate": [
+            {
+              "time": 0,
+              "x": 0,
+              "y": 0
+            },
+            {
+              "time": 0.15,
+              "x": 6,
+              "y": -6
+            },
+            {
+              "time": 0.3,
+              "x": 6,
+              "y": -6
+            },
+            {
+              "time": 0.45,
+              "x": 0,
+              "y": 0
+            },
+            {
+              "time": 0.6,
+              "x": 0,
+              "y": 0
+            }
+          ]
+        }
+      }
+    },
+    "attack": {
+      "bones": {
+        "root": {
+          "rotate": [
+            {
+              "time": 0,
+              "angle": 0
+            },
+            {
+              "time": 0.1,
+              "angle": 3
+            },
+            {
+              "time": 0.22,
+              "angle": -7
+            },
+            {
+              "time": 0.4,
+              "angle": 2
+            },
+            {
+              "time": 0.6,
+              "angle": 0
+            }
+          ],
+          "translate": [
+            {
+              "time": 0,
+              "x": 0,
+              "y": 0
+            },
+            {
+              "time": 0.1,
+              "x": 12,
+              "y": 0
+            },
+            {
+              "time": 0.22,
+              "x": -30,
+              "y": 0
+            },
+            {
+              "time": 0.4,
+              "x": 10,
+              "y": 0
+            },
+            {
+              "time": 0.6,
+              "x": 0,
+              "y": 0
+            }
+          ]
+        },
+        "potionBone": {
+          "translate": [
+            {
+              "time": 0.15,
+              "x": 0,
+              "y": 0
+            },
+            {
+              "time": 0.3,
+              "x": -480,
+              "y": 300
+            },
+            {
+              "time": 0.45,
+              "x": -950,
+              "y": 150
+            },
+            {
+              "time": 0.58,
+              "x": -1400,
+              "y": -200
+            }
+          ],
+          "rotate": [
+            {
+              "time": 0.15,
+              "angle": 0
+            },
+            {
+              "time": 0.58,
+              "angle": 250
+            }
+          ],
+          "scale": [
+            {
+              "time": 0.58,
+              "x": 1,
+              "y": 1
+            },
+            {
+              "time": 0.66,
+              "x": 1.6,
+              "y": 1.6
+            }
+          ]
+        }
+      },
+      "slots": {
+        "potion": {
+          "attachment": [
+            {
+              "time": 0.15,
+              "name": "potion"
+            },
+            {
+              "time": 0.66
+            }
+          ],
+          "rgba": [
+            {
+              "time": 0.15,
+              "color": "ffffffff"
+            },
+            {
+              "time": 0.58,
+              "color": "ffffffff"
+            },
+            {
+              "time": 0.66,
+              "color": "ffffff00"
+            }
+          ]
+        }
+      }
+    },
+    "hurt": {
+      "bones": {
+        "root": {
+          "translate": [
+            {
+              "time": 0,
+              "x": 0,
+              "y": 0
+            },
+            {
+              "time": 0.08,
+              "x": 40,
+              "y": 0
+            },
+            {
+              "time": 0.16,
+              "x": -16,
+              "y": 0
+            },
+            {
+              "time": 0.26,
+              "x": 22,
+              "y": 0
+            },
+            {
+              "time": 0.35,
+              "x": 0,
+              "y": 0
+            }
+          ],
+          "rotate": [
+            {
+              "time": 0,
+              "angle": 0
+            },
+            {
+              "time": 0.08,
+              "angle": -3
+            },
+            {
+              "time": 0.2,
+              "angle": 3
+            },
+            {
+              "time": 0.35,
+              "angle": 0
+            }
+          ]
+        }
+      }
+    },
+    "die": {
+      "bones": {
+        "root": {
+          "rotate": [
+            {
+              "time": 0,
+              "angle": 0
+            },
+            {
+              "time": 0.55,
+              "angle": -80
+            },
+            {
+              "time": 0.95,
+              "angle": -80
+            }
+          ],
+          "translate": [
+            {
+              "time": 0,
+              "x": 0,
+              "y": 0
+            },
+            {
+              "time": 0.55,
+              "x": 45,
+              "y": -20
+            },
+            {
+              "time": 0.95,
+              "x": 50,
+              "y": -22
+            }
+          ]
+        }
+      }
+    }
+  }
+}

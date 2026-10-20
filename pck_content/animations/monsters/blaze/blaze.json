@@ -1,0 +1,469 @@
+{
+  "skeleton": {
+    "hash": "mcblaze001",
+    "spine": "4.2.43",
+    "x": -150,
+    "y": -260,
+    "width": 300,
+    "height": 520,
+    "images": "./",
+    "audio": "./"
+  },
+  "bones": [
+    {
+      "name": "root"
+    },
+    {
+      "name": "fireballBone",
+      "parent": "root",
+      "x": 0,
+      "y": 300
+    }
+  ],
+  "slots": [
+    {
+      "name": "full",
+      "bone": "root",
+      "attachment": "full",
+      "color": "ffffffff"
+    },
+    {
+      "name": "fireball",
+      "bone": "fireballBone"
+    }
+  ],
+  "skins": [
+    {
+      "name": "default",
+      "attachments": {
+        "fireball": {
+          "fireball": {
+            "type": "region",
+            "x": 0,
+            "y": 0,
+            "width": 140,
+            "height": 140
+          }
+        },
+        "full": {
+          "full": {
+            "type": "region",
+            "x": 0,
+            "y": 250,
+            "width": 300,
+            "height": 500
+          },
+          "full_flash": {
+            "type": "region",
+            "x": 0,
+            "y": 250,
+            "width": 300,
+            "height": 500
+          }
+        }
+      }
+    }
+  ],
+  "animations": {
+    "idle_loop": {
+      "slots": {
+        "full": {
+          "attachment": [
+            {
+              "time": 0,
+              "name": "full"
+            },
+            {
+              "time": 0.45,
+              "name": "full"
+            }
+          ]
+        }
+      },
+      "bones": {
+        "root": {
+          "translate": [
+            {
+              "time": 0,
+              "x": 0,
+              "y": 0
+            },
+            {
+              "time": 0.9,
+              "x": 0,
+              "y": -9
+            },
+            {
+              "time": 1.8,
+              "x": 0,
+              "y": 0
+            }
+          ],
+          "rotate": [
+            {
+              "time": 0,
+              "angle": 0
+            },
+            {
+              "time": 0.45,
+              "angle": 1.2
+            },
+            {
+              "time": 0.9,
+              "angle": 0
+            },
+            {
+              "time": 1.35,
+              "angle": -1.2
+            },
+            {
+              "time": 1.8,
+              "angle": 0
+            }
+          ]
+        }
+      }
+    },
+    "cast": {
+      "slots": {
+        "full": {
+          "attachment": [
+            {
+              "time": 0,
+              "name": "full"
+            }
+          ]
+        },
+        "fireball": {
+          "attachment": [
+            {
+              "time": 0.05,
+              "name": "fireball"
+            },
+            {
+              "time": 0.55
+            }
+          ],
+          "rgba": [
+            {
+              "time": 0.05,
+              "color": "ffffffff"
+            },
+            {
+              "time": 0.42,
+              "color": "ffffffff"
+            },
+            {
+              "time": 0.55,
+              "color": "ffffff00"
+            }
+          ]
+        }
+      },
+      "bones": {
+        "root": {
+          "scale": [
+            {
+              "time": 0,
+              "x": 1,
+              "y": 1
+            },
+            {
+              "time": 0.25,
+              "x": 1.08,
+              "y": 1.06
+            },
+            {
+              "time": 0.5,
+              "x": 1,
+              "y": 1
+            }
+          ],
+          "rotate": [
+            {
+              "time": 0,
+              "angle": 0
+            },
+            {
+              "time": 0.08,
+              "angle": 2
+            },
+            {
+              "time": 0.16,
+              "angle": -2
+            },
+            {
+              "time": 0.24,
+              "angle": 2
+            },
+            {
+              "time": 0.32,
+              "angle": -2
+            },
+            {
+              "time": 0.4,
+              "angle": 0
+            },
+            {
+              "time": 0.6,
+              "angle": 0
+            }
+          ]
+        },
+        "fireballBone": {
+          "translate": [
+            {
+              "time": 0.05,
+              "x": 0,
+              "y": 0
+            },
+            {
+              "time": 0.4,
+              "x": -1500,
+              "y": -30
+            }
+          ],
+          "scale": [
+            {
+              "time": 0.4,
+              "x": 1,
+              "y": 1
+            },
+            {
+              "time": 0.55,
+              "x": 2.2,
+              "y": 2.2
+            }
+          ]
+        }
+      }
+    },
+    "attack": {
+      "slots": {
+        "full": {
+          "attachment": [
+            {
+              "time": 0,
+              "name": "full"
+            }
+          ]
+        },
+        "fireball": {
+          "attachment": [
+            {
+              "time": 0.05,
+              "name": "fireball"
+            },
+            {
+              "time": 0.55
+            }
+          ],
+          "rgba": [
+            {
+              "time": 0.05,
+              "color": "ffffffff"
+            },
+            {
+              "time": 0.42,
+              "color": "ffffffff"
+            },
+            {
+              "time": 0.55,
+              "color": "ffffff00"
+            }
+          ]
+        }
+      },
+      "bones": {
+        "root": {
+          "rotate": [
+            {
+              "time": 0,
+              "angle": 0
+            },
+            {
+              "time": 0.1,
+              "angle": 5
+            },
+            {
+              "time": 0.22,
+              "angle": -8
+            },
+            {
+              "time": 0.38,
+              "angle": 3
+            },
+            {
+              "time": 0.6,
+              "angle": 0
+            }
+          ],
+          "translate": [
+            {
+              "time": 0,
+              "x": 0,
+              "y": 0
+            },
+            {
+              "time": 0.1,
+              "x": 18,
+              "y": 0
+            },
+            {
+              "time": 0.22,
+              "x": -45,
+              "y": 0
+            },
+            {
+              "time": 0.38,
+              "x": 12,
+              "y": 0
+            },
+            {
+              "time": 0.6,
+              "x": 0,
+              "y": 0
+            }
+          ]
+        },
+        "fireballBone": {
+          "translate": [
+            {
+              "time": 0.05,
+              "x": 0,
+              "y": 0
+            },
+            {
+              "time": 0.4,
+              "x": -1500,
+              "y": -30
+            }
+          ],
+          "scale": [
+            {
+              "time": 0.4,
+              "x": 1,
+              "y": 1
+            },
+            {
+              "time": 0.55,
+              "x": 2.2,
+              "y": 2.2
+            }
+          ]
+        }
+      }
+    },
+    "hurt": {
+      "slots": {
+        "full": {
+          "attachment": [
+            {
+              "time": 0,
+              "name": "full"
+            }
+          ]
+        }
+      },
+      "bones": {
+        "root": {
+          "translate": [
+            {
+              "time": 0,
+              "x": 0,
+              "y": 0
+            },
+            {
+              "time": 0.08,
+              "x": 45,
+              "y": 0
+            },
+            {
+              "time": 0.16,
+              "x": -18,
+              "y": 0
+            },
+            {
+              "time": 0.26,
+              "x": 25,
+              "y": 0
+            },
+            {
+              "time": 0.35,
+              "x": 0,
+              "y": 0
+            }
+          ],
+          "rotate": [
+            {
+              "time": 0,
+              "angle": 0
+            },
+            {
+              "time": 0.08,
+              "angle": -4
+            },
+            {
+              "time": 0.2,
+              "angle": 3
+            },
+            {
+              "time": 0.35,
+              "angle": 0
+            }
+          ]
+        }
+      }
+    },
+    "die": {
+      "slots": {
+        "full": {
+          "attachment": [
+            {
+              "time": 0,
+              "name": "full"
+            }
+          ]
+        }
+      },
+      "bones": {
+        "root": {
+          "scale": [
+            {
+              "time": 0,
+              "x": 1,
+              "y": 1
+            },
+            {
+              "time": 0.5,
+              "x": 0.75,
+              "y": 0.55
+            },
+            {
+              "time": 0.9,
+              "x": 0.6,
+              "y": 0.4
+            }
+          ],
+          "translate": [
+            {
+              "time": 0,
+              "x": 0,
+              "y": 0
+            },
+            {
+              "time": 0.5,
+              "x": 0,
+              "y": -40
+            },
+            {
+              "time": 0.9,
+              "x": 0,
+              "y": -60
+            }
+          ]
+        }
+      }
+    }
+  }
+}

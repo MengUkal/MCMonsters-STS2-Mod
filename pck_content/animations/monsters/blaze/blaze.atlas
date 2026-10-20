@@ -1,0 +1,11 @@
+blaze.png
+size:740,500
+format:RGBA8888
+filter:Linear,Linear
+repeat:none
+full
+bounds:0,0,300,500
+full_flash
+bounds:300,0,300,500
+fireball
+bounds:600,0,140,140
