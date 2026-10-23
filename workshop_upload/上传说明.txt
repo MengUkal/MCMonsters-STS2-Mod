@@ -1,45 +1,29 @@
 ﻿========================================
- 创意工坊上传包（在家用电脑上操作）
+ MC怪物 v1.6.1 创意工坊更新包
 ========================================
 
-【一、准备】
-1. 把整个 workshop_upload 文件夹复制到家里电脑（例如放到 C:\webshop_build\）
-2. 确保家里电脑装了 Steam + 杀戮尖塔2（用来登录上传）
+【本次更新内容】
+修复严重BUG：进入第二幕时游戏卡死
+原因：缺少跑图记录图标（run_history），游戏加载失败后同步回退循环
+已为全部 34 个遭遇补齐图标（图标+轮廓，128x128）
 
-【二、下载 SteamCMD】
-地址：https://steamcdn-a.akamaihd.net/client/installer/steamcmd.zip
-解压到例如 D:\steamcmd\
-首次运行（初始化，约29MB更新）：
-  D:\steamcmd\steamcmd.exe +quit
+【包内结构】
+content\                  ← 上传内容（3个文件，与已上线物品结构一致）
+  MCMonsters.json
+  MCMonsters.pck         (含全部贴图，5.1MB)
+  MCMonsters.dll
+workshop_preview.png      ← 工坊预览图
+workshop_build.vdf       ← 上传配置（已填你的物品ID 3823425588）
 
-【三、修改VDF里的路径】
-用记事本打开 upload.vdf，把两处路径改成你实际存放位置：
-  "contentfolder"     "C:\webshop_build\content"
-  "previewfile"       "C:\webshop_build\workshop_preview.png"
-（如果解压到其他盘，改成对应路径）
+【上传步骤】
+1. 把整个 workshop_upload 文件夹复制到家里电脑（如 C:\webshop_build\）
+2. 检查 upload.vdf 里两处路径是否对应正确位置
+3. CMD 执行：
+   D:\steamcmd\steamcmd.exe +login 你的Steam账号 +workshop_build_item "C:\webshop_build\upload.vdf" +quit
+4. 输密码 + 手机确认 → 自动更新已上线的物品
 
-【四、上传】
-打开 CMD（Win+R 输入 cmd），执行：
-  D:\steamcmd\steamcmd.exe +login 你的Steam账号 +workshop_build_item "C:\webshop_build\upload.vdf" +quit
-
-会依次要求：
-  1. password: 输入Steam密码（不显示字符正常）
-  2. 手机Steam App确认登录
-  3. 自动上传
-
-【五、成功标志】
-  Logged in OK
-  ...
-  Uploaded workshop item: <物品ID>
-记下物品ID！以后更新版本要改 VDF 里的 publishedfileid
-（首次上传=0，更新=填物品ID）
-
-【六、上传后】
-1. Steam → 库 → Slay the Spire 2 → 创意工坊 → 我的物品
-2. 点「编辑」→ 可见性改「公开」
-3. 补充游戏内截图
-
-【内容清单】
-content\  23个文件（清单+pck+dll+pdb+19张PNG）
-workshop_preview.png  工坊预览图
-upload.vdf  上传配置
+【重要提醒】
+- publishedfileid = 3823425588（更新，不是新建）
+- visibility = 0（公开）
+- 描述里已包含 v1.6.1 更新说明（你手动改工坊描述也可以）
+- 原物品结构就是3个文件，这次保持一致
