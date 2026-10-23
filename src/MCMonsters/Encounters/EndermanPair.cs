@@ -7,8 +7,8 @@ using MCMonsters.Monsters;
 namespace MCMonsters.Encounters;
 
 /// <summary>
-/// 遭遇：双末影人（第3幕池）。两只末影人轮流瞬移拉扯——
-/// 一个格挡一个背刺，节奏完全错开，非常考验输出规划。
+/// 遭遇：双末影人。v1.7.0 起不再进入遭遇池（末影人改为单怪机制），
+/// 仅保留供控制台 fight enderman_pair 测试。
 /// 类名即 ModelId（slug: enderman_pair）。
 /// </summary>
 public sealed class EndermanPair : EncounterModel

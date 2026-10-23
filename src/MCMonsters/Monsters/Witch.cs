@@ -2,101 +2,88 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Ascension;
-using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.MonsterMoves.Intents;
 using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
-using MCMonsters.Powers;
 
 namespace MCMonsters.Monsters;
 
 /// <summary>
-/// 我的世界：女巫（第3幕普通怪）
-/// 被动【炼金术】：玩家单次造成15+伤害 → 向其弃牌堆塞1张灼伤（药水溅射）。
-/// 饮用治疗：回复16血，但若上一回合受到20+伤害则被打断（不回复）。
-/// 招式循环：喷溅药剂（10+2灼伤）→ 饮用治疗（可打断）→ 毒雾弹（2×8+1灼伤）。
-/// 数值：155血（进阶163）。
+/// 我的世界：女巫（第3幕普通怪，重做版）
+/// 四段循环：毒剂投掷（中毒3）→ 诅咒喷洒（虚弱3）→ 腐蚀投掷（20）→ 饮用治疗（回复20%最大生命）。
+/// 治疗按百分比：单刷260血=回52；多人联机怪物血量按人数缩放，治疗随之放大。
+/// 数值：260血（进阶268）。
 /// </summary>
 public sealed class Witch : MonsterModel
 {
-    // MC女巫26HP → STS2第3幕 155
-    public override int MinInitialHp => AscensionHelper.GetValueIfAscension(AscensionLevel.ToughEnemies, 163, 155);
+    // MC女巫26HP → STS2第3幕 260（重做：更肉的四段循环）
+    public override int MinInitialHp => AscensionHelper.GetValueIfAscension(AscensionLevel.ToughEnemies, 268, 260);
     public override int MaxInitialHp => MinInitialHp;
 
-    private int SplashDamage => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 11, 10);
-    private int SplashBurn => 2;
-    private int HealAmount => AscensionHelper.GetValueIfAscension(AscensionLevel.ToughEnemies, 18, 16);
-    private int HealInterruptThreshold => 20;
-    private int CloudDamage => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 9, 8);
-    private int CloudHits => 2;
-    private int CloudBurn => 1;
+    private int PoisonAmount => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 4, 3);
+    private int WeakAmount => 3;
+    private int ThrowDamage => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 22, 20);
+    private const decimal HealFraction = 0.2m; // 每次回复最大生命的1/5
 
-    public override async Task AfterAddedToRoom()
-    {
-        await base.AfterAddedToRoom();
-        await PowerCmd.Apply<WitchBrewPower>(new ThrowingPlayerChoiceContext(), Creature, 1, Creature, null);
-    }
-
-    // AI循环：喷溅药剂 → 饮用治疗 → 毒雾弹 → 循环
+    // AI循环：毒剂投掷 → 诅咒喷洒 → 腐蚀投掷 → 饮用治疗 → 循环
     protected override MonsterMoveStateMachine GenerateMoveStateMachine()
     {
         List<MonsterState> states = new List<MonsterState>();
 
-        MoveState splash = new MoveState("SPLASH", SplashMove, new SingleAttackIntent(SplashDamage), new DebuffIntent());
-        MoveState heal = new MoveState("HEAL_POTION", HealMove, new BuffIntent());
-        MoveState cloud = new MoveState("POISON_CLOUD", CloudMove, new MultiAttackIntent(CloudDamage, CloudHits), new DebuffIntent());
+        MoveState poison = new MoveState("TOXIC_VIAL", PoisonMove, new DebuffIntent());
+        MoveState curse = new MoveState("CURSE_SPRAY", CurseMove, new DebuffIntent());
+        MoveState acid = new MoveState("ACID_THROW", AcidThrowMove, new SingleAttackIntent(ThrowDamage));
+        MoveState heal = new MoveState("HEAL_POTION", HealMove, new HealIntent());
 
-        splash.FollowUpState = heal;
-        heal.FollowUpState = cloud;
-        cloud.FollowUpState = splash;
+        poison.FollowUpState = curse;
+        curse.FollowUpState = acid;
+        acid.FollowUpState = heal;
+        heal.FollowUpState = poison;
 
-        states.Add(splash);
+        states.Add(poison);
+        states.Add(curse);
+        states.Add(acid);
         states.Add(heal);
-        states.Add(cloud);
 
-        return new MonsterMoveStateMachine(states, splash);
+        return new MonsterMoveStateMachine(states, poison);
     }
 
-    // 喷溅药剂：10 + 2张灼伤
-    private async Task SplashMove(IReadOnlyList<Creature> targets)
+    // 毒剂投掷：给予玩家中毒3
+    private async Task PoisonMove(IReadOnlyList<Creature> targets)
     {
-        await DamageCmd.Attack(SplashDamage).FromMonster(this)
+        await CreatureCmd.TriggerAnim(base.Creature, "Cast", 0.4f);
+        global::MegaCrit.Sts2.Core.Audio.Debug.NDebugAudioManager.Instance?.Play("mc_witch_throw.mp3");
+        await PowerCmd.Apply<PoisonPower>(new ThrowingPlayerChoiceContext(), targets, PoisonAmount, Creature, null);
+    }
+
+    // 诅咒喷洒：给予玩家虚弱3
+    private async Task CurseMove(IReadOnlyList<Creature> targets)
+    {
+        await CreatureCmd.TriggerAnim(base.Creature, "Cast", 0.4f);
+        global::MegaCrit.Sts2.Core.Audio.Debug.NDebugAudioManager.Instance?.Play("mc_witch_throw.mp3");
+        await PowerCmd.Apply<WeakPower>(new ThrowingPlayerChoiceContext(), targets, WeakAmount, Creature, null);
+    }
+
+    // 腐蚀投掷：攻击20
+    private async Task AcidThrowMove(IReadOnlyList<Creature> targets)
+    {
+        await DamageCmd.Attack(ThrowDamage).FromMonster(this)
             .WithAttackerAnim("Attack", 0.3f)
             .WithAttackerFx(null, null, "mc_witch_throw.mp3")
             .WithHitFx("vfx/vfx_slime_impact")
             .Execute(null);
-        await CardPileCmd.AddToCombatAndPreview<Burn>(targets, PileType.Discard, SplashBurn, null);
     }
 
-    // 饮用治疗：回16血（上回合受20+伤害则被打断）
+    // 饮用治疗：回复自身20%最大生命（多人联机血量缩放后治疗同步放大；向下取整防小数血量）
     private async Task HealMove(IReadOnlyList<Creature> targets)
     {
-        var brew = base.Creature.GetPower<WitchBrewPower>();
-        if (brew != null && brew.LastTurnDamage >= HealInterruptThreshold)
-        {
-            // 被打断：喝药失败，不回复
-            await CreatureCmd.TriggerAnim(base.Creature, "Cast", 0.3f);
-            return;
-        }
         await CreatureCmd.TriggerAnim(base.Creature, "Cast", 0.4f);
         global::MegaCrit.Sts2.Core.Audio.Debug.NDebugAudioManager.Instance?.Play("mc_witch_drink.ogg");
-        await CreatureCmd.Heal(base.Creature, HealAmount);
-    }
-
-    // 毒雾弹：2×8 + 1张灼伤
-    private async Task CloudMove(IReadOnlyList<Creature> targets)
-    {
-        await DamageCmd.Attack(CloudDamage).WithHitCount(CloudHits).FromMonster(this)
-            .OnlyPlayAnimOnce()
-            .WithAttackerAnim("Attack", 0.15f)
-            .WithAttackerFx(null, null, "mc_witch_throw.mp3")
-            .WithHitFx("vfx/vfx_slime_impact")
-            .Execute(null);
-        await CardPileCmd.AddToCombatAndPreview<Burn>(targets, PileType.Discard, CloudBurn, null);
+        decimal healAmount = decimal.Floor(base.Creature.MaxHp * HealFraction);
+        await CreatureCmd.Heal(base.Creature, healAmount);
     }
 }

@@ -39,10 +39,10 @@
 ### 第三幕
 | 怪物 | 血量 | 机制 |
 |---|---|---|
-| 末影人 | 150 | 【空间闪避】每次受攻击+5格挡（每回合2次）→克制多段攻击 |
-| 潜影贝 | 165 | 【壳甲】闭壳期间受到伤害减半 |
+| 末影人（单怪）| 230 | 【空间闪避】每次受攻击+4格挡（无限触发）；【虚空侵蚀】每回合你-1敏捷；中立潜行——打出以它为目标的牌后立刻激怒开战（撕裂17+格挡20 → 虚弱2 → 重击25）|
+| 潜影贝 | 165 | 【壳甲】闭壳期间受到伤害减半；开壳弹幕2×8+力量+1，双贝起手一格挡一攻击 |
 | 掠夺者 | 150 | 【装填中断】装填后受12+伤害 → 攻击取消 |
-| 女巫 | 155 | 【炼金术】单次15+伤害塞你1张灼伤；喝药可被打断 |
+| 女巫 | 260 | 四段循环：中毒3 → 虚弱3 → 攻击20 → 回复20%最大生命 |
 | 巨人（精英）| 300 | 抬脚蓄力 → 践踏35（屏幕震动）|
 | 掠夺者突袭（精英）| 3×150+130 | 3掠夺者+袭击队长（号令全军/狙击/压制）|
 | 末影龙（BOSS）| 600 | 三形态，最终形态【天空之翼】受到攻击伤害减半 |
@@ -79,7 +79,7 @@ act 3                    跳到第三幕
 fight shulker_pair       直接进入指定遭遇
 ```
 
-主要遭遇 ID（配合 beta 的 `fight` 命令使用）：`zombie_solo` `skeleton_solo` `spider_pair` `creeper_skeleton` `warden_boss` `blaze_pair` `zombie_piglin_pair` `wither_skeleton_pair` `piglin_brute_solo` `ghast_elite` `wither_boss_encounter` `enderman_pair` `shulker_pair` `pillager_pair` `witch_pair` `giant_elite` `pillager_raid_elite` `ender_dragon_boss`
+主要遭遇 ID（配合 beta 的 `fight` 命令使用）：`zombie_solo` `skeleton_solo` `spider_pair` `creeper_skeleton` `warden_boss` `blaze_pair` `zombie_piglin_pair` `wither_skeleton_pair` `piglin_brute_solo` `ghast_elite` `wither_boss_encounter` `enderman_solo` `shulker_pair` `pillager_pair` `witch_pair` `giant_elite` `pillager_raid_elite` `ender_dragon_boss`（`enderman_pair` 仍可 fight，但已退出遭遇池）
 
 ## 已知限制
 
@@ -99,6 +99,7 @@ fight shulker_pair       直接进入指定遭遇
 ## 版本
 
 
+**1.7.0** — **第三层平衡重做**：①末影人改为单怪遭遇（230血），新增【虚空侵蚀】每回合你-1敏捷，打出以它为目标的牌后立刻被激怒开战（瞬移撕裂17+格挡20 → 虚空凝视虚弱2 → 虚空重击25），空间闪避降为4格挡且无限触发；三层池 `enderman_pair` → `enderman_solo`。②潜影贝开壳弹幕改为2×8+力量+1，双潜影贝起手错开（一只闭合防御、一只开壳弹幕）。③女巫重做（260血）：毒剂投掷（中毒3）→ 诅咒喷洒（虚弱3）→ 腐蚀投掷（20）→ 饮用治疗（回复50），移除炼金术被动（灼伤塞牌/打断机制）。新增17×17像素风力量图标【虚空侵蚀】。
 **1.6.1** — 修复**严重 BUG：进入第二幕时游戏卡死**。根因：游戏在幕切换/跑图记录界面会加载 `res://images/ui/run_history/<遭遇ID>.png`（+`_outline`），本模组此前没有提供这 34 个遭遇的图标，缺失导致 `NAssetLoader` 同步回退加载循环、严重时卡死。现已用 `tools/make_runhistory_icons.ps1` 为全部 34 个遭遇生成图标 + 白色轮廓（128×128），组装器补上 `.png.import → .ctex` 导入链。本机 v0.107.1 实测进入二幕/凋灵场景 0 报错。
 **1.6.0** — 支持游戏**正式版 v0.107.1**（此前只支持测试分支 0.111.0）。改动：恶魂/潜影贝/末影龙的伤害修正从 `ModifyDamageMultiplicative` 重写改为 `Hook.ModifyDamage` 后置补丁，一份 DLL 同时兼容 0.107.x 与 0.111.x；清单 `min_game_version` 降为 `0.107.1`。已在正式版实机验证：模组加载、19/19 怪物贴图、16/16 BUFF 图标、三幕遭遇池注入、僵尸/恶魂/潜影贝战斗、恶魂伤害归零与潜影贝壳甲减半；**测试分支 v0.111.0 同样实测运行正常**。
 

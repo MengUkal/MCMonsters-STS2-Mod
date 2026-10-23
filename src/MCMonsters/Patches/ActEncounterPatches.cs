@@ -51,9 +51,10 @@ public static class ActEncounterPatches
         }
         else if (__instance.Index == 2)
         {
+            // v1.7.0：末影人改为单怪遭遇（中立激怒机制只适合单怪），endeman_pair 仍保留供控制台测试
             __result = __result.Concat(new EncounterModel[]
             {
-                ModelDb.Encounter<Encounters.EndermanPair>(),
+                ModelDb.Encounter<Encounters.EndermanSolo>(),
                 ModelDb.Encounter<Encounters.ShulkerPair>(),
                 ModelDb.Encounter<Encounters.WitchPair>(),
                 ModelDb.Encounter<Encounters.PillagerPair>(),
