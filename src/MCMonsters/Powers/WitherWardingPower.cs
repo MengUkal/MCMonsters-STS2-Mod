@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization;
+using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Powers;
@@ -48,7 +49,15 @@ public sealed class WitherWardingPower : PowerModel
         if (base.Owner.CurrentHp * 2 <= base.Owner.MaxHp)
         {
             D.granted = true;
-            await PowerCmd.Apply<ArtifactPower>(new ThrowingPlayerChoiceContext(), base.Owner, 99, base.Owner, null);
+            try
+            {
+                // 复用钩子传入的 context（ThrowingPlayerChoiceContext 会 throw，打断伤害管线 → 牌浮空/回合卡死）
+                await PowerCmd.Apply<ArtifactPower>(choiceContext, base.Owner, 99, base.Owner, null);
+            }
+            catch (System.Exception ex)
+            {
+                Log.Warn($"[MCMonsters] WitherWardingPower apply failed: {ex}");
+            }
         }
     }
 }

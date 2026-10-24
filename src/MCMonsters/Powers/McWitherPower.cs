@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Combat;
@@ -6,6 +7,7 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization;
+using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
@@ -30,13 +32,19 @@ public sealed class McWitherPower : PowerModel
 
     public override async Task AfterSideTurnStart(CombatSide side, IReadOnlyList<Creature> participants, ICombatState combatState)
     {
-        if (!participants.Contains(base.Owner))
+        if (!participants.Contains(base.Owner) || base.Amount <= 0)
         {
             return;
         }
-        if (base.Amount > 0)
+
+        // 回合开始钩子里抛异常会打断整个回合启动流程（牌浮空 / 回合不结束），这里兜底。
+        try
         {
             await CreatureCmd.Damage(new ThrowingPlayerChoiceContext(), base.Owner, base.Amount, ValueProp.Unblockable | ValueProp.Unpowered, null, null);
+        }
+        catch (Exception ex)
+        {
+            Log.Warn($"[MCMonsters] McWitherPower turn-start damage failed: {ex}");
         }
     }
 }
