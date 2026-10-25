@@ -66,10 +66,10 @@ public sealed class Warden : MonsterModel
     {
         List<MonsterState> states = new List<MonsterState>();
 
-        MoveState smash = new MoveState("SMASH", SmashMove, new SingleAttackIntent(SmashDamage));
-        MoveState darkness = new MoveState("DARKNESS", DarknessMove, new DebuffIntent());
-        MoveState fury = new MoveState("FURY", FuryMove, new MultiAttackIntent(FuryDamage, FuryHits));
-        MoveState strengthUp = new MoveState("STRENGTH_UP", StrengthUpMove, new BuffIntent());
+        MoveState smash = new MoveState("SMASH", McGuard.Move("SMASH", SmashMove), new SingleAttackIntent(SmashDamage));
+        MoveState darkness = new MoveState("DARKNESS", McGuard.Move("DARKNESS", DarknessMove), new DebuffIntent());
+        MoveState fury = new MoveState("FURY", McGuard.Move("FURY", FuryMove), new MultiAttackIntent(FuryDamage, FuryHits));
+        MoveState strengthUp = new MoveState("STRENGTH_UP", McGuard.Move("STRENGTH_UP", StrengthUpMove), new BuffIntent());
         StrengthUpState = strengthUp;
 
         smash.FollowUpState = darkness;

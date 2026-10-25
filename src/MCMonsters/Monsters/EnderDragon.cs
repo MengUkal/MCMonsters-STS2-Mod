@@ -96,23 +96,23 @@ public sealed class EnderDragon : MonsterModel
     {
         List<MonsterState> states = new List<MonsterState>();
 
-        DeadState = new MoveState("RESPAWN_MOVE", RespawnMove, new HealIntent())
+        DeadState = new MoveState("RESPAWN_MOVE", McGuard.Move("RESPAWN_MOVE", RespawnMove), new HealIntent())
         {
             MustPerformOnceBeforeTransitioning = true
         };
 
         // 形态1：盘旋形态
-        MoveState breath = new MoveState("DRAGON_BREATH", DragonBreathMove, new SingleAttackIntent(BreathDamage), new DebuffIntent());
-        MoveState gust = new MoveState("WING_GUST", WingGustMove, new MultiAttackIntent(GustDamage, GustHits));
+        MoveState breath = new MoveState("DRAGON_BREATH", McGuard.Move("DRAGON_BREATH", DragonBreathMove), new SingleAttackIntent(BreathDamage), new DebuffIntent());
+        MoveState gust = new MoveState("WING_GUST", McGuard.Move("WING_GUST", WingGustMove), new MultiAttackIntent(GustDamage, GustHits));
 
         // 形态2：俯冲形态
-        MoveState dive = new MoveState("DIVE_CHARGE", DiveChargeMove, new SingleAttackIntent(DiveDamage));
-        MoveState cloud = new MoveState("DRAGON_CLOUD", DragonCloudMove, new SingleAttackIntent(CloudDamage), new DebuffIntent());
+        MoveState dive = new MoveState("DIVE_CHARGE", McGuard.Move("DIVE_CHARGE", DiveChargeMove), new SingleAttackIntent(DiveDamage));
+        MoveState cloud = new MoveState("DRAGON_CLOUD", McGuard.Move("DRAGON_CLOUD", DragonCloudMove), new SingleAttackIntent(CloudDamage), new DebuffIntent());
 
         // 形态3：狂怒形态
-        MoveState roar = new MoveState("RAGE_ROAR", RageRoarMove, new BuffIntent(), new DefendIntent());
-        MoveState tripleDive = new MoveState("TRIPLE_DIVE", TripleDiveMove, new MultiAttackIntent(TripleDiveDamage, TripleDiveHits));
-        MoveState stare = new MoveState("DEATH_STARE", DeathStareMove, new SingleAttackIntent(StareDamage));
+        MoveState roar = new MoveState("RAGE_ROAR", McGuard.Move("RAGE_ROAR", RageRoarMove), new BuffIntent(), new DefendIntent());
+        MoveState tripleDive = new MoveState("TRIPLE_DIVE", McGuard.Move("TRIPLE_DIVE", TripleDiveMove), new MultiAttackIntent(TripleDiveDamage, TripleDiveHits));
+        MoveState stare = new MoveState("DEATH_STARE", McGuard.Move("DEATH_STARE", DeathStareMove), new SingleAttackIntent(StareDamage));
 
         // 形态1循环：龙息吐息 → 翼击 → 循环
         breath.FollowUpState = gust;

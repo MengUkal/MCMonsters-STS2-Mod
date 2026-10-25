@@ -33,9 +33,9 @@ public sealed class Zombie : MonsterModel
     {
         List<MonsterState> states = new List<MonsterState>();
 
-        MoveState clawSwipe = new MoveState("CLAW_SWIPE", ClawSwipeMove, new SingleAttackIntent(ClawSwipeDamage));
-        MoveState deadGrowl = new MoveState("DEAD_GROWL", DeadGrowlMove, new BuffIntent());
-        MoveState chomp = new MoveState("CHOMP", ChompMove, new SingleAttackIntent(ChompDamage));
+        MoveState clawSwipe = new MoveState("CLAW_SWIPE", McGuard.Move("CLAW_SWIPE", ClawSwipeMove), new SingleAttackIntent(ClawSwipeDamage));
+        MoveState deadGrowl = new MoveState("DEAD_GROWL", McGuard.Move("DEAD_GROWL", DeadGrowlMove), new BuffIntent());
+        MoveState chomp = new MoveState("CHOMP", McGuard.Move("CHOMP", ChompMove), new SingleAttackIntent(ChompDamage));
 
         clawSwipe.FollowUpState = deadGrowl;
         deadGrowl.FollowUpState = chomp;

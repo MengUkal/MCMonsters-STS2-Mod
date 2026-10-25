@@ -44,9 +44,9 @@ public sealed class WitherSkeleton : MonsterModel
     {
         List<MonsterState> states = new List<MonsterState>();
 
-        MoveState slash = new MoveState("SLASH", SlashMove, new SingleAttackIntent(SlashDamage), new DebuffIntent());
-        MoveState guard = new MoveState("GUARD", GuardMove, new DefendIntent(), new DebuffIntent());
-        MoveState smash = new MoveState("SMASH", SmashMove, new SingleAttackIntent(SmashDamage));
+        MoveState slash = new MoveState("SLASH", McGuard.Move("SLASH", SlashMove), new SingleAttackIntent(SlashDamage), new DebuffIntent());
+        MoveState guard = new MoveState("GUARD", McGuard.Move("GUARD", GuardMove), new DefendIntent(), new DebuffIntent());
+        MoveState smash = new MoveState("SMASH", McGuard.Move("SMASH", SmashMove), new SingleAttackIntent(SmashDamage));
 
         slash.FollowUpState = guard;
         guard.FollowUpState = smash;

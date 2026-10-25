@@ -53,10 +53,10 @@ public sealed class Creeper : MonsterModel
     {
         List<MonsterState> states = new List<MonsterState>();
 
-        MoveState hiss = new MoveState("HISS", HissMove, new UnknownIntent());
-        MoveState hiss2 = new MoveState("HISS2", HissMove, new UnknownIntent());
-        MoveState hiss3 = new MoveState("HISS3", HissMove, new UnknownIntent());
-        MoveState explode = new MoveState("EXPLODE", ExplodeMove, new DeathBlowIntent(() => ExplodeDamage));
+        MoveState hiss = new MoveState("HISS", McGuard.Move("HISS", HissMove), new UnknownIntent());
+        MoveState hiss2 = new MoveState("HISS2", McGuard.Move("HISS2", HissMove), new UnknownIntent());
+        MoveState hiss3 = new MoveState("HISS3", McGuard.Move("HISS3", HissMove), new UnknownIntent());
+        MoveState explode = new MoveState("EXPLODE", McGuard.Move("EXPLODE", ExplodeMove), new DeathBlowIntent(() => ExplodeDamage));
 
         hiss.FollowUpState = hiss2;
         hiss2.FollowUpState = hiss3;

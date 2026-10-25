@@ -34,10 +34,10 @@ public sealed class Witch : MonsterModel
     {
         List<MonsterState> states = new List<MonsterState>();
 
-        MoveState poison = new MoveState("TOXIC_VIAL", PoisonMove, new DebuffIntent());
-        MoveState curse = new MoveState("CURSE_SPRAY", CurseMove, new DebuffIntent());
-        MoveState acid = new MoveState("ACID_THROW", AcidThrowMove, new SingleAttackIntent(ThrowDamage));
-        MoveState heal = new MoveState("HEAL_POTION", HealMove, new HealIntent());
+        MoveState poison = new MoveState("TOXIC_VIAL", McGuard.Move("TOXIC_VIAL", PoisonMove), new DebuffIntent());
+        MoveState curse = new MoveState("CURSE_SPRAY", McGuard.Move("CURSE_SPRAY", CurseMove), new DebuffIntent());
+        MoveState acid = new MoveState("ACID_THROW", McGuard.Move("ACID_THROW", AcidThrowMove), new SingleAttackIntent(ThrowDamage));
+        MoveState heal = new MoveState("HEAL_POTION", McGuard.Move("HEAL_POTION", HealMove), new HealIntent());
 
         poison.FollowUpState = curse;
         curse.FollowUpState = acid;

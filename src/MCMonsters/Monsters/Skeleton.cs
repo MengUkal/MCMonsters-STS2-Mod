@@ -36,7 +36,7 @@ public sealed class Skeleton : MonsterModel
     // AI循环：每回合固定一箭
     protected override MonsterMoveStateMachine GenerateMoveStateMachine()
     {
-        MoveState volley = new MoveState("VOLLEY", VolleyMove, new SingleAttackIntent(VolleyDamage));
+        MoveState volley = new MoveState("VOLLEY", McGuard.Move("VOLLEY", VolleyMove), new SingleAttackIntent(VolleyDamage));
         volley.FollowUpState = volley;
         return new MonsterMoveStateMachine(new List<MonsterState> { volley }, volley);
     }

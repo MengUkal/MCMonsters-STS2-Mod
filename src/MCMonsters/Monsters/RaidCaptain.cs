@@ -38,9 +38,9 @@ public sealed class RaidCaptain : MonsterModel
     {
         List<MonsterState> states = new List<MonsterState>();
 
-        MoveState rally = new MoveState("RALLY", RallyMove, new BuffIntent(), new DefendIntent());
-        MoveState snipe = new MoveState("SNIPE", SnipeMove, new SingleAttackIntent(SnipeDamage));
-        MoveState suppress = new MoveState("SUPPRESS", SuppressMove, new MultiAttackIntent(SuppressDamage, SuppressHits), new DebuffIntent());
+        MoveState rally = new MoveState("RALLY", McGuard.Move("RALLY", RallyMove), new BuffIntent(), new DefendIntent());
+        MoveState snipe = new MoveState("SNIPE", McGuard.Move("SNIPE", SnipeMove), new SingleAttackIntent(SnipeDamage));
+        MoveState suppress = new MoveState("SUPPRESS", McGuard.Move("SUPPRESS", SuppressMove), new MultiAttackIntent(SuppressDamage, SuppressHits), new DebuffIntent());
 
         rally.FollowUpState = snipe;
         snipe.FollowUpState = suppress;

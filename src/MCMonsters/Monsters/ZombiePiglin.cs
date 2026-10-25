@@ -86,10 +86,10 @@ public sealed class ZombiePiglin : MonsterModel
     {
         List<MonsterState> states = new List<MonsterState>();
 
-        MoveState calm = new MoveState("CALM", CalmMove, new BuffIntent());
-        MoveState cleave = new MoveState("CLEAVE", CleaveMove, new SingleAttackIntent(CleaveDamage));
-        MoveState bite = new MoveState("BITE", BiteMove, new SingleAttackIntent(BiteDamage), new DebuffIntent());
-        MoveState slam = new MoveState("SLAM", SlamMove, new SingleAttackIntent(SlamDamage));
+        MoveState calm = new MoveState("CALM", McGuard.Move("CALM", CalmMove), new BuffIntent());
+        MoveState cleave = new MoveState("CLEAVE", McGuard.Move("CLEAVE", CleaveMove), new SingleAttackIntent(CleaveDamage));
+        MoveState bite = new MoveState("BITE", McGuard.Move("BITE", BiteMove), new SingleAttackIntent(BiteDamage), new DebuffIntent());
+        MoveState slam = new MoveState("SLAM", McGuard.Move("SLAM", SlamMove), new SingleAttackIntent(SlamDamage));
         AttackState = cleave;
 
         // 平静分支：未受伤回到蓄怒，受伤进入攻击循环

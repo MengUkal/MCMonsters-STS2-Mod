@@ -53,8 +53,8 @@ public sealed class Shulker : MonsterModel
     {
         List<MonsterState> states = new List<MonsterState>();
 
-        MoveState close = new MoveState("CLOSE_SHELL", CloseShellMove, new DefendIntent());
-        MoveState barrage = new MoveState("OPEN_BARRAGE", OpenBarrageMove, new BuffIntent(), new MultiAttackIntent(BarrageDamage, BarrageHits));
+        MoveState close = new MoveState("CLOSE_SHELL", McGuard.Move("CLOSE_SHELL", CloseShellMove), new DefendIntent());
+        MoveState barrage = new MoveState("OPEN_BARRAGE", McGuard.Move("OPEN_BARRAGE", OpenBarrageMove), new BuffIntent(), new MultiAttackIntent(BarrageDamage, BarrageHits));
 
         close.FollowUpState = barrage;
         barrage.FollowUpState = close;

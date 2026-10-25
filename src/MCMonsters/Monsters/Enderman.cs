@@ -60,10 +60,10 @@ public sealed class Enderman : MonsterModel
     {
         List<MonsterState> states = new List<MonsterState>();
 
-        MoveState dormant = new MoveState("DORMANT", DormantMove, new SleepIntent());
-        MoveState rend = new MoveState("TELEPORT_REND", RendMove, new SingleAttackIntent(RendDamage), new DefendIntent());
-        MoveState gaze = new MoveState("VOID_GAZE", GazeMove, new DebuffIntent());
-        MoveState smash = new MoveState("VOID_SMASH", SmashMove, new SingleAttackIntent(SmashDamage));
+        MoveState dormant = new MoveState("DORMANT", McGuard.Move("DORMANT", DormantMove), new SleepIntent());
+        MoveState rend = new MoveState("TELEPORT_REND", McGuard.Move("TELEPORT_REND", RendMove), new SingleAttackIntent(RendDamage), new DefendIntent());
+        MoveState gaze = new MoveState("VOID_GAZE", McGuard.Move("VOID_GAZE", GazeMove), new DebuffIntent());
+        MoveState smash = new MoveState("VOID_SMASH", McGuard.Move("VOID_SMASH", SmashMove), new SingleAttackIntent(SmashDamage));
         RendState = rend;
         _aggro = false;
 

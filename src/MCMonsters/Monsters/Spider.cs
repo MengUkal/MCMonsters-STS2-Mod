@@ -35,10 +35,10 @@ public sealed class Spider : MonsterModel
     {
         List<MonsterState> states = new List<MonsterState>();
 
-        MoveState pounce = new MoveState("POUNCE", PounceMove, new SingleAttackIntent(PounceDamage));
-        MoveState webSnare = new MoveState("WEB_SNARE", WebSnareMove, new DebuffIntent());
-        MoveState pounce2 = new MoveState("POUNCE2", PounceMove, new SingleAttackIntent(PounceDamage));
-        MoveState sideClimb = new MoveState("SIDE_CLIMB", SideClimbMove, new DefendIntent());
+        MoveState pounce = new MoveState("POUNCE", McGuard.Move("POUNCE", PounceMove), new SingleAttackIntent(PounceDamage));
+        MoveState webSnare = new MoveState("WEB_SNARE", McGuard.Move("WEB_SNARE", WebSnareMove), new DebuffIntent());
+        MoveState pounce2 = new MoveState("POUNCE2", McGuard.Move("POUNCE2", PounceMove), new SingleAttackIntent(PounceDamage));
+        MoveState sideClimb = new MoveState("SIDE_CLIMB", McGuard.Move("SIDE_CLIMB", SideClimbMove), new DefendIntent());
 
         pounce.FollowUpState = webSnare;
         webSnare.FollowUpState = pounce2;

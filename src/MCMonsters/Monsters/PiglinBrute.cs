@@ -34,9 +34,9 @@ public sealed class PiglinBrute : MonsterModel
     {
         List<MonsterState> states = new List<MonsterState>();
 
-        MoveState cleave = new MoveState("AXE_CLEAVE", AxeCleaveMove, new SingleAttackIntent(CleaveDamage));
-        MoveState sweep = new MoveState("BRUTE_SWEEP", BruteSweepMove, new MultiAttackIntent(SweepDamage, SweepHits));
-        MoveState unyielding = new MoveState("UNYIELDING", UnyieldingMove, new DefendIntent());
+        MoveState cleave = new MoveState("AXE_CLEAVE", McGuard.Move("AXE_CLEAVE", AxeCleaveMove), new SingleAttackIntent(CleaveDamage));
+        MoveState sweep = new MoveState("BRUTE_SWEEP", McGuard.Move("BRUTE_SWEEP", BruteSweepMove), new MultiAttackIntent(SweepDamage, SweepHits));
+        MoveState unyielding = new MoveState("UNYIELDING", McGuard.Move("UNYIELDING", UnyieldingMove), new DefendIntent());
 
         cleave.FollowUpState = sweep;
         sweep.FollowUpState = unyielding;

@@ -35,9 +35,9 @@ public sealed class Giant : MonsterModel
     {
         List<MonsterState> states = new List<MonsterState>();
 
-        MoveState lift = new MoveState("LIFT_FOOT", LiftMove, new DefendIntent());
-        MoveState stomp = new MoveState("STOMP", StompMove, new SingleAttackIntent(StompDamage));
-        MoveState sweep = new MoveState("SWEEP", SweepMove, new MultiAttackIntent(SweepDamage, SweepHits));
+        MoveState lift = new MoveState("LIFT_FOOT", McGuard.Move("LIFT_FOOT", LiftMove), new DefendIntent());
+        MoveState stomp = new MoveState("STOMP", McGuard.Move("STOMP", StompMove), new SingleAttackIntent(StompDamage));
+        MoveState sweep = new MoveState("SWEEP", McGuard.Move("SWEEP", SweepMove), new MultiAttackIntent(SweepDamage, SweepHits));
 
         lift.FollowUpState = stomp;
         stomp.FollowUpState = sweep;

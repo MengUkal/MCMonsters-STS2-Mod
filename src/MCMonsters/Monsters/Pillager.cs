@@ -59,9 +59,9 @@ public sealed class Pillager : MonsterModel
     {
         List<MonsterState> states = new List<MonsterState>();
 
-        MoveState reload = new MoveState("RELOAD", ReloadMove, new DefendIntent());
-        MoveState shot = new MoveState("AIMED_SHOT", AimedShotMove, new SingleAttackIntent(ShotDamage));
-        MoveState scatter = new MoveState("SCATTER", ScatterMove, new MultiAttackIntent(ScatterDamage, ScatterHits));
+        MoveState reload = new MoveState("RELOAD", McGuard.Move("RELOAD", ReloadMove), new DefendIntent());
+        MoveState shot = new MoveState("AIMED_SHOT", McGuard.Move("AIMED_SHOT", AimedShotMove), new SingleAttackIntent(ShotDamage));
+        MoveState scatter = new MoveState("SCATTER", McGuard.Move("SCATTER", ScatterMove), new MultiAttackIntent(ScatterDamage, ScatterHits));
         ReloadState = reload;
 
         reload.FollowUpState = shot;

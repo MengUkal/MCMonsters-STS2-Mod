@@ -65,15 +65,15 @@ public sealed class ChickenJockey : MonsterModel
     {
         List<MonsterState> states = new List<MonsterState>();
 
-        DeadState = new MoveState("RESPAWN", RespawnMove, new HealIntent())
+        DeadState = new MoveState("RESPAWN", McGuard.Move("RESPAWN", RespawnMove), new HealIntent())
         {
             MustPerformOnceBeforeTransitioning = true
         };
-        MoveState summon = new MoveState("SUMMON", SummonMove, new SummonIntent());
-        MoveState strike1 = new MoveState("STRIKE", StrikeMove, new SingleAttackIntent(StrikeDamage));
-        MoveState warCry = new MoveState("WAR_CRY", WarCryMove, new BuffIntent());
-        MoveState strike2 = new MoveState("STRIKE2", StrikeMove, new SingleAttackIntent(StrikeDamage));
-        MoveState rush = new MoveState("RUSH", RushMove, new SingleAttackIntent(RushDamage));
+        MoveState summon = new MoveState("SUMMON", McGuard.Move("SUMMON", SummonMove), new SummonIntent());
+        MoveState strike1 = new MoveState("STRIKE", McGuard.Move("STRIKE", StrikeMove), new SingleAttackIntent(StrikeDamage));
+        MoveState warCry = new MoveState("WAR_CRY", McGuard.Move("WAR_CRY", WarCryMove), new BuffIntent());
+        MoveState strike2 = new MoveState("STRIKE2", McGuard.Move("STRIKE2", StrikeMove), new SingleAttackIntent(StrikeDamage));
+        MoveState rush = new MoveState("RUSH", McGuard.Move("RUSH", RushMove), new SingleAttackIntent(RushDamage));
 
         summon.FollowUpState = strike1;
         strike1.FollowUpState = warCry;

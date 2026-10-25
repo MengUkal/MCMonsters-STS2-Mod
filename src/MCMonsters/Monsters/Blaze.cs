@@ -46,9 +46,9 @@ public sealed class Blaze : MonsterModel
     {
         List<MonsterState> states = new List<MonsterState>();
 
-        MoveState soar = new MoveState("SOAR_STRIKE", SoarStrikeMove, new SingleAttackIntent(FireballDamage), new DefendIntent());
-        MoveState barrage = new MoveState("BARRAGE", BarrageMove, new MultiAttackIntent(BarrageDamage, BarrageHits));
-        MoveState buff = new MoveState("BUFF_UP", BuffUpMove, new BuffIntent(), new DefendIntent());
+        MoveState soar = new MoveState("SOAR_STRIKE", McGuard.Move("SOAR_STRIKE", SoarStrikeMove), new SingleAttackIntent(FireballDamage), new DefendIntent());
+        MoveState barrage = new MoveState("BARRAGE", McGuard.Move("BARRAGE", BarrageMove), new MultiAttackIntent(BarrageDamage, BarrageHits));
+        MoveState buff = new MoveState("BUFF_UP", McGuard.Move("BUFF_UP", BuffUpMove), new BuffIntent(), new DefendIntent());
 
         soar.FollowUpState = barrage;
         barrage.FollowUpState = buff;
@@ -69,11 +69,13 @@ public sealed class Blaze : MonsterModel
             .WithAttackerFx(null, null, "mc_blaze_attack.ogg")
             .WithHitFx("vfx/fire_impact/vfx_fire_burst_center_flipbook")
             .Execute(null);
-        await PlayerAttackBurn(targets);
-        await IgnitePlayer(targets);
-        await CreatureCmd.GainBlock(base.Creature, SoarBlock, ValueProp.Unpowered, null);
+        // 每个附加效果单独兜底：任何一步失败都不该影响后面的效果，更不能卡住敌方回合
+        await McGuard.Run("BLAZE_SOAR_STRIKE.burn", () => PlayerAttackBurn(targets));
+        await McGuard.Run("BLAZE_SOAR_STRIKE.ignite", () => IgnitePlayer(targets));
+        await McGuard.Run("BLAZE_SOAR_STRIKE.block", () => CreatureCmd.GainBlock(base.Creature, SoarBlock, ValueProp.Unpowered, null));
         // 官方SoarPower：翱翔期间受到的攻击伤害减少50%（自带游戏本地化）
-        await PowerCmd.Apply<global::MegaCrit.Sts2.Core.Models.Powers.SoarPower>(new ThrowingPlayerChoiceContext(), Creature, 1, Creature, null);
+        await McGuard.Run("BLAZE_SOAR_STRIKE.soar", () =>
+            PowerCmd.Apply<global::MegaCrit.Sts2.Core.Models.Powers.SoarPower>(new ThrowingPlayerChoiceContext(), Creature, 1, Creature, null));
     }
 
     // 火焰弹幕：俯冲四连射（3×4），失去翱翔
@@ -85,10 +87,10 @@ public sealed class Blaze : MonsterModel
             .WithAttackerFx(null, null, "mc_blaze_attack.ogg")
             .WithHitFx("vfx/fire_impact/vfx_fire_burst_center_flipbook")
             .Execute(null);
-        await PlayerAttackBurn(targets);
-        await IgnitePlayer(targets);
+        await McGuard.Run("BLAZE_BARRAGE.burn", () => PlayerAttackBurn(targets));
+        await McGuard.Run("BLAZE_BARRAGE.ignite", () => IgnitePlayer(targets));
         // 俯冲落地：失去翱翔
-        await PowerCmd.Remove<global::MegaCrit.Sts2.Core.Models.Powers.SoarPower>(base.Creature);
+        await McGuard.Run("BLAZE_BARRAGE.soar_off", () => PowerCmd.Remove<global::MegaCrit.Sts2.Core.Models.Powers.SoarPower>(base.Creature));
     }
 
     // 蓄能：力量+1并获得10点护盾

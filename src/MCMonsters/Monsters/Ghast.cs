@@ -47,9 +47,9 @@ public sealed class Ghast : MonsterModel
     {
         List<MonsterState> states = new List<MonsterState>();
 
-        MoveState a1 = new MoveState("FIREBALL", Attack1Move, new SingleAttackIntent(Attack1Damage));
-        MoveState a2 = new MoveState("BIG_FIREBALL", Attack2Move, new SingleAttackIntent(Attack2Damage));
-        MoveState a3 = new MoveState("BLAST_FIREBALL", Attack3Move, new SingleAttackIntent(Attack3Damage));
+        MoveState a1 = new MoveState("FIREBALL", McGuard.Move("FIREBALL", Attack1Move), new SingleAttackIntent(Attack1Damage));
+        MoveState a2 = new MoveState("BIG_FIREBALL", McGuard.Move("BIG_FIREBALL", Attack2Move), new SingleAttackIntent(Attack2Damage));
+        MoveState a3 = new MoveState("BLAST_FIREBALL", McGuard.Move("BLAST_FIREBALL", Attack3Move), new SingleAttackIntent(Attack3Damage));
 
         a1.FollowUpState = a2;
         a2.FollowUpState = a3;

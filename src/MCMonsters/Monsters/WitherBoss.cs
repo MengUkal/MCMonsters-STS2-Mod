@@ -46,10 +46,10 @@ public sealed class WitherBoss : MonsterModel
     {
         List<MonsterState> states = new List<MonsterState>();
 
-        MoveState slash = new MoveState("SLASH", SlashMove, new SingleAttackIntent(SlashDamage));
-        MoveState touch = new MoveState("WITHER_TOUCH", TouchMove, new SingleAttackIntent(TouchDamage), new DebuffIntent());
-        MoveState fury = new MoveState("FURY", FuryMove, new MultiAttackIntent(FuryDamage, FuryHits));
-        MoveState buff = new MoveState("WARDING", WardingMove, new BuffIntent(), new DefendIntent());
+        MoveState slash = new MoveState("SLASH", McGuard.Move("SLASH", SlashMove), new SingleAttackIntent(SlashDamage));
+        MoveState touch = new MoveState("WITHER_TOUCH", McGuard.Move("WITHER_TOUCH", TouchMove), new SingleAttackIntent(TouchDamage), new DebuffIntent());
+        MoveState fury = new MoveState("FURY", McGuard.Move("FURY", FuryMove), new MultiAttackIntent(FuryDamage, FuryHits));
+        MoveState buff = new MoveState("WARDING", McGuard.Move("WARDING", WardingMove), new BuffIntent(), new DefendIntent());
 
         slash.FollowUpState = touch;
         touch.FollowUpState = fury;
