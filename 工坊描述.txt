@@ -1,3 +1,10 @@
+[h2]🔔 更新记录[/h2]
+[b]v1.8.0（2026-10-27）[/b] 凋零骷髅小队错峰起手——复刻一代哨兵轮转：三只分别以斩击/防御/重击开局，任何回合至多一只举盾；修复末影龙第一次死亡复活后[b]无法被选中、无法被伤害[/b]的严重问题（复活保护标志未复位导致永久免疫）；修复末影龙意图图标被立绘挡住（锚点跑出屏幕）的问题。
+[b]v1.7.2（2026-10-25）[/b] 修复组合遭遇中敌方回合卡住的问题（某只怪攻击后其余怪物不再行动）——所有招式加异常护栏；v1.7.1 凋零之触挂钩修复 + 自定义音效修复。
+
+[b]v1.7.0（2026-10-23）[/b] 第三层平衡重做：末影人改为[b]单怪遭遇[/b]（230 血）——新增【虚空侵蚀】每回合你 -1 敏捷；打出以它为目标的牌后立刻被激怒开战；【空间闪避】调整为 4 格挡且无限触发。潜影贝开壳弹幕改为 2×8 + 力量 +1，双贝起手一格挡一攻击。女巫重做（260 血）：中毒 3 → 虚弱 3 → 攻击 20 → 回复 20% 最大生命（多人联机自动随血量缩放）。
+[b]v1.6.1（2026-10-21）[/b] 修复严重问题：进入第二幕时游戏可能卡死。原因是缺少跑图记录图标导致引擎加载失败循环，已为全部 34 个遭遇补齐图标。
+[hr][/hr]
 [h1]MC怪物 / Minecraft Monsters[/h1]
 
 把《我的世界》的经典怪物搬进《杀戮尖塔2》。
@@ -23,10 +30,10 @@
 · [i]BOSS[/i] 凋灵 —— 半血获得 99 层人工制品
 
 [b]【第三幕 · 7 种遭遇】[/b]
-· 末影人 —— 【空间闪避】每次受攻击 +5 格挡（每回合 2 次）
-· 潜影贝 —— 【壳甲】闭壳期间所受伤害减半
+· 末影人（单怪）—— 【虚空侵蚀】每回合你 -1 敏捷；中立潜行，打出以它为目标的牌后立刻激怒开战（撕裂17+格挡20 → 虚弱2 → 重击25）；【空间闪避】受攻击 +4 格挡（无限触发）
+· 潜影贝 —— 【壳甲】闭壳期间所受伤害减半；开壳弹幕 2×8 + 力量 +1（双贝起手一格挡一攻击）
 · 掠夺者 —— 【装填中断】装填后受 12+ 伤害 → 攻击取消
-· 女巫 —— 【炼金术】单次 15+ 伤害塞你 1 张灼伤；喝药可打断
+· 女巫 —— 四段循环：中毒 3 → 虚弱 3 → 攻击 20 → 饮用治疗回复 20% 最大生命
 · [i]精英[/i] 巨人 —— 抬脚蓄力 → 践踏 35（屏幕震动）
 · [i]精英[/i] 掠夺者突袭 —— 3 掠夺者 + 袭击队长（号令 / 狙击 / 压制）
 · [i]BOSS[/i] 末影龙 —— 三形态，总计 600 血
@@ -34,7 +41,7 @@
 [hr][/hr]
 [h2]✨ 特色[/h2]
 [list]
-[*]独特互动机制：空过惩罚、完美格挡解谜、装填打断、治疗打断、壳甲减伤、多段攻击克星
+[*]独特互动机制：空过惩罚、完美格挡解谜、装填打断、壳甲减伤、多段攻击克星、中立激怒（末影人）、百分比回复（女巫）
 [*]遭遇按强度分入弱怪池 / 强怪池，精英与 BOSS 和官方同池随机
 [*]简中 + 英文双语本地化，自定义 BUFF 图标齐全
 [*][b]贴图全部内置在模组包内：不需要前置模组，不需要往游戏目录放任何文件[/b]
@@ -57,6 +64,9 @@ A：游戏有「BOSS 首次发现顺序」保护：只要该幕还有没见过�
 [b]Q：精英怪也很难遇到？[/b]
 A：每层精英房间数量有限，且精英池与官方共享。一层（官方 3 + MC 1）、二层（官方 3 + MC 1）每个精英房约 25% 出 MC 精英；三层（官方 3 + MC 2）约 40%。普通怪和弱怪则常见得多。
 
+[b]Q：末影人一直不攻击？[/b]
+A：它是中立生物：只要没有牌「指定」它为目标，它就一直潜行观望（但仍会每回合侵蚀你 1 点敏捷）。用一张单体牌点它一下，它就会立刻被激怒进入攻击循环。范围 AOE 不指定目标，不会激怒它——想速通也可以硬 AOE，但要吃它的无限瞬移格挡。
+
 [b]Q：需要前置模组吗？要手动放贴图吗？[/b]
 A：都不需要。19 张怪物贴图已按官方资源格式打包进模组本体，订阅即用。
 
@@ -67,11 +77,6 @@ A：不建议。存档里会记录 MC 遭遇 ID，移除后可能导致读档异
 A：这是游戏自身的版本兼容问题：正式版读不了测试分支写出的存档，可能直接崩溃（存档会被隔离成 *.FUT.corrupt）。切换分支前请先备份存档；本模组同一份文件已同时兼容正式版和测试分支，不需要为切换版本更换模组文件。
 
 [hr][/hr]
-[h2]📜 更新日志[/h2]
-[b]v1.8.0[/b]：凋零骷髅小队错峰起手（复刻一代哨兵轮转，不再全队同回合举盾）；修复末影龙第一次死亡复活后无法被选中、无法被伤害的问题；修复末影龙意图图标被立绘挡住的问题。
-[b]v1.7.x[/b]：三层重构（末影人单怪、潜影贝蓄力弹幕、女巫百分比治疗）；全部招式加异常保护；自定义音效修复。
-
-[hr][/hr]
 [h2]📌 已知限制 & 后续计划[/h2]
 [list]
 [*]潜影贝「开壳 / 闭壳」立绘切换未实现（保留壳甲机制 + BUFF 提示）
@@ -80,7 +85,7 @@ A：这是游戏自身的版本兼容问题：正式版读不了测试分支写�
 
 [hr][/hr]
 [h2]English[/h2]
-Bring Minecraft monsters into Slay the Spire 2 — [b]19 monsters and 25 encounters[/b] across all 3 acts, sharing the encounter pools with the official content. Hand-drawn Spine animations, original mechanics (punish-pass, perfect-block puzzle, load-interrupt, heal-interrupt, shell damage reduction, multi-hit counter) and full zhs/eng localization. Wither skeleton packs now open staggered like the Sentries from the first game, so the whole squad never shields up on the same turn (v1.8.0). All textures are bundled inside the mod: no dependencies, no extra files. Requires game version 0.107.1 or newer (the same build also works on the 0.111.0 beta branch).
+Bring Minecraft monsters into Slay the Spire 2 — [b]19 monsters and 25 encounters[/b] across all 3 acts, sharing the encounter pools with the official content. Hand-drawn Spine animations, original mechanics (punish-pass, perfect-block puzzle, load-interrupt, shell damage reduction, multi-hit counter, neutral-aggro Enderman that only fights back once targeted, percentage-based Witch healing) and full zhs/eng localization. Wither skeleton packs now open staggered like the Sentries from the first game, so the whole squad never shields up on the same turn (v1.8.0). All textures are bundled inside the mod: no dependencies, no extra files. Requires game version 0.107.1 or newer (the same build also works on the 0.111.0 beta branch).
 
 [hr][/hr]
 作者：MengUkal
