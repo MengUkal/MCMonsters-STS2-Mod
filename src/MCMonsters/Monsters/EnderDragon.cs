@@ -222,6 +222,10 @@ public sealed class EnderDragon : MonsterModel
     private async Task RespawnMove(IReadOnlyList<Creature> targets)
     {
         Respawns++;
+        // 关键：解除"isReviving"复活保护（AfterDeath 置位后只有这里能复位），
+        // 否则 ShouldAllowHitting 永远返回 false——复活后的龙无法被选中、无法被任何伤害命中。
+        // 与 ChickenJockey.RespawnMove 的 JockeyRevivePower.DoRevive() 同款。
+        Creature.GetPower<EnderDragonRevivePower>()?.DoRevive();
         await CreatureCmd.TriggerAnim(base.Creature, "Idle", 0f);
         switch (Respawns)
         {

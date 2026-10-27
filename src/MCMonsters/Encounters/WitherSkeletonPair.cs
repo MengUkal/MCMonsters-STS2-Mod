@@ -9,6 +9,8 @@ namespace MCMonsters.Encounters;
 /// <summary>
 /// 遭遇：双凋零骷髅（第2幕池）。下界要塞的组合——凋零之触塞灼伤牌，
 /// 双份灼伤抽到就是4点起步，牌库越抽越脏。
+/// v1.8.0 起双骷髅错峰起手（复刻一代哨兵）：一只斩击开局、一只防御姿态开局，
+/// 任何回合都至多一只举盾。
 /// 类名即 ModelId（slug: wither_skeleton_pair）。
 /// </summary>
 public sealed class WitherSkeletonPair : EncounterModel
@@ -26,10 +28,15 @@ public sealed class WitherSkeletonPair : EncounterModel
 
     protected override IReadOnlyList<(MonsterModel, string?)> GenerateMonsters()
     {
+        var first = (WitherSkeleton)ModelDb.Monster<WitherSkeleton>().ToMutable();
+        var second = (WitherSkeleton)ModelDb.Monster<WitherSkeleton>().ToMutable();
+        // 错峰起手：斩击 / 防御姿态（循环顺序不变，只错相位）
+        first.StartMoveOffset = 0;
+        second.StartMoveOffset = 1;
         return new (MonsterModel, string?)[]
         {
-            (ModelDb.Monster<WitherSkeleton>().ToMutable(), (string?)null),
-            (ModelDb.Monster<WitherSkeleton>().ToMutable(), (string?)null)
+            (first, (string?)null),
+            (second, (string?)null)
         };
     }
 }

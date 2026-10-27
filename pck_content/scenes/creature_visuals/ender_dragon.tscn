@@ -30,7 +30,7 @@ position = Vector2(0, -286.8)
 
 [node name="IntentPos" type="Marker2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(0, -947.2)
+position = Vector2(0, -593.6)
 
 [node name="TalkPos" type="Marker2D" parent="."]
 unique_name_in_owner = true

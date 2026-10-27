@@ -20,9 +20,13 @@ namespace MCMonsters.Monsters;
 /// 被动【凋零之触】：攻击未被格挡时给予玩家1层凋零（每回合失去1点生命/层，可叠加，不衰减）。
 /// 招式循环：斩击（8）→ 防御姿态（格挡16+虚弱2）→ 重击（12）。
 /// 数值：58血（进阶62）。
+/// 多只同场时由遭遇设置 StartMoveOffset 错峰起手（复刻一代哨兵的轮转错位：
+/// 每回合至多一只举盾，攻击/防御/重击三个阶段始终错开）。
 /// </summary>
 public sealed class WitherSkeleton : MonsterModel
 {
+    private int _startMoveOffset;
+
     // MC凋零骷髅20HP → STS2第2幕 58（进阶62）
     public override int MinInitialHp => AscensionHelper.GetValueIfAscension(AscensionLevel.ToughEnemies, 62, 58);
     public override int MaxInitialHp => MinInitialHp;
@@ -32,6 +36,21 @@ public sealed class WitherSkeleton : MonsterModel
     private int GuardBlock => AscensionHelper.GetValueIfAscension(AscensionLevel.ToughEnemies, 18, 16);
     private int GuardWeak => 2;
     private int SmashDamage => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 13, 12);
+
+    /// <summary>
+    /// 起手招式错峰偏移：0=斩击（默认），1=防御姿态，2=重击。
+    /// 由 WitherSkeletonPair / WitherSkeletonTriple 在生成时设置；
+    /// 招式循环本身不变，只是相位错开。
+    /// </summary>
+    public int StartMoveOffset
+    {
+        get => _startMoveOffset;
+        set
+        {
+            AssertMutable();
+            _startMoveOffset = value;
+        }
+    }
 
     public override async Task AfterAddedToRoom()
     {
@@ -56,7 +75,14 @@ public sealed class WitherSkeleton : MonsterModel
         states.Add(guard);
         states.Add(smash);
 
-        return new MonsterMoveStateMachine(states, slash);
+        // 错峰起手：按偏移选择首个招式（循环顺序不变，只错相位）
+        MonsterState initial = StartMoveOffset switch
+        {
+            1 => guard,
+            2 => smash,
+            _ => slash
+        };
+        return new MonsterMoveStateMachine(states, initial);
     }
 
     // 斩击：石剑斩击8+脆弱2（未被格挡则触发凋零之触）

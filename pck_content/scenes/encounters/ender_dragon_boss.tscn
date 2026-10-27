@@ -10,4 +10,4 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="dragon" type="Marker2D" parent="."]
-position = Vector2(1505, 640)
+position = Vector2(1505, 755)
