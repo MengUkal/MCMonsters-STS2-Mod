@@ -15,7 +15,7 @@
 · [i]BOSS[/i] 监守者 —— 【警觉】你空过回合，它就会变强
 
 [b]【第二幕 · 11 种遭遇】[/b]
-· 凋零骷髅 —— 未被格挡的攻击给你 1 层凋零（持续掉血）
+· 凋零骷髅 —— 未被格挡的攻击给你 1 层凋零（持续掉血）；多只同场时起手错开，攻/防/重击轮转登场
 · 烈焰人 —— 每次攻击反伤；火球 + 翱翔减伤
 · 僵尸猪人 —— 中立蓄怒 / 被激怒反击的双状态
 · 猪灵蛮兵 —— 纯物理重装
@@ -67,16 +67,20 @@ A：不建议。存档里会记录 MC 遭遇 ID，移除后可能导致读档异
 A：这是游戏自身的版本兼容问题：正式版读不了测试分支写出的存档，可能直接崩溃（存档会被隔离成 *.FUT.corrupt）。切换分支前请先备份存档；本模组同一份文件已同时兼容正式版和测试分支，不需要为切换版本更换模组文件。
 
 [hr][/hr]
+[h2]📜 更新日志[/h2]
+[b]v1.8.0[/b]：凋零骷髅小队错峰起手（复刻一代哨兵轮转，不再全队同回合举盾）；修复末影龙第一次死亡复活后无法被选中、无法被伤害的问题；修复末影龙意图图标被立绘挡住的问题。
+[b]v1.7.x[/b]：三层重构（末影人单怪、潜影贝蓄力弹幕、女巫百分比治疗）；全部招式加异常保护；自定义音效修复。
+
+[hr][/hr]
 [h2]📌 已知限制 & 后续计划[/h2]
 [list]
-[*]三幕 BOSS 的跑图历史小图标暂缺（显示为空白）
 [*]潜影贝「开壳 / 闭壳」立绘切换未实现（保留壳甲机制 + BUFF 提示）
 [*]怪物音效仍在补全中
 [/list]
 
 [hr][/hr]
 [h2]English[/h2]
-Bring Minecraft monsters into Slay the Spire 2 — [b]19 monsters and 25 encounters[/b] across all 3 acts, sharing the encounter pools with the official content. Hand-drawn Spine animations, original mechanics (punish-pass, perfect-block puzzle, load-interrupt, heal-interrupt, shell damage reduction, multi-hit counter) and full zhs/eng localization. All textures are bundled inside the mod: no dependencies, no extra files. Requires game version 0.107.1 or newer (the same build also works on the 0.111.0 beta branch).
+Bring Minecraft monsters into Slay the Spire 2 — [b]19 monsters and 25 encounters[/b] across all 3 acts, sharing the encounter pools with the official content. Hand-drawn Spine animations, original mechanics (punish-pass, perfect-block puzzle, load-interrupt, heal-interrupt, shell damage reduction, multi-hit counter) and full zhs/eng localization. Wither skeleton packs now open staggered like the Sentries from the first game, so the whole squad never shields up on the same turn (v1.8.0). All textures are bundled inside the mod: no dependencies, no extra files. Requires game version 0.107.1 or newer (the same build also works on the 0.111.0 beta branch).
 
 [hr][/hr]
 作者：MengUkal
