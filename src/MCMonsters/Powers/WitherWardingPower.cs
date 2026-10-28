@@ -49,10 +49,12 @@ public sealed class WitherWardingPower : PowerModel
         if (base.Owner.CurrentHp * 2 <= base.Owner.MaxHp)
         {
             D.granted = true;
+            Log.Info($"[MCMonsters] WitherWarding trigger: HP {base.Owner.CurrentHp}/{base.Owner.MaxHp}, granting 99 artifacts (context={choiceContext.GetType().Name})");
             try
             {
                 // 复用钩子传入的 context（ThrowingPlayerChoiceContext 会 throw，打断伤害管线 → 牌浮空/回合卡死）
                 await PowerCmd.Apply<ArtifactPower>(choiceContext, base.Owner, 99, base.Owner, null);
+                Log.Info("[MCMonsters] WitherWarding: 99 artifacts applied OK");
             }
             catch (System.Exception ex)
             {

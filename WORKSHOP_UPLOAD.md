@@ -2,6 +2,7 @@
 
 ## 一、发布前检查
 
+- ✅ **移除临时调试命令**：`src\MCMonsters\DevTools\McWitherReproCmds.cs`（mcfight/mcwither）是复现工具，发布构建前删除或注释整个文件，防止控制台命令泄漏给玩家
 - ✅ 模组清单 `MCMonsters.json`：**无任何前置依赖**，`min_game_version` = 0.107.1
 - ✅ 贴图全部内置：19 张怪物贴图以官方 import 链（`.png.import` → `.ctex` + `spatlas.source_path`）打进 `MCMonsters.pck`。**不写游戏目录、不需要管理员权限、不产生任何散图**
 - ✅ 工坊内容包 `workshop_content\`：manifest + pck + dll（约 5.0MB，无 PNG）
