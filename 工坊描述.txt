@@ -1,4 +1,5 @@
 [h2]🔔 更新记录[/h2]
+[b]v1.9.0（2026-11-13）[/b] 适配游戏测试分支 [b]v0.113.0[/b] 大更新（The Fool / Blitz / Dread）。①修复新版本下打开「百科大全→怪物图鉴」崩溃的问题（为全部 34 个遭遇补齐图鉴本地化）；②鸡骑士/末影龙复活机制适配新版 API；③补丁加载改为逐类隔离（游戏日后更新不会因单个补丁失配导致整批失效）；④移除发布前临时调试命令。同一份文件继续兼容 v0.107.1 / v0.111.0。
 [b]v1.8.0（2026-10-27）[/b] 凋零骷髅小队错峰起手——复刻一代哨兵轮转：三只分别以斩击/防御/重击开局，任何回合至多一只举盾；修复末影龙第一次死亡复活后[b]无法被选中、无法被伤害[/b]的严重问题（复活保护标志未复位导致永久免疫）；修复末影龙意图图标被立绘挡住（锚点跑出屏幕）的问题。
 [b]v1.7.2（2026-10-25）[/b] 修复组合遭遇中敌方回合卡住的问题（某只怪攻击后其余怪物不再行动）——所有招式加异常护栏；v1.7.1 凋零之触挂钩修复 + 自定义音效修复。
 
@@ -54,7 +55,7 @@
 [*]启动游戏，在「模组配置」中确认已启用
 [*]新开一局即可
 [/list]
-游戏版本要求：[b]正式版 v0.107.1 起[/b]（测试分支 v0.111.0 也可使用同一版本模组）。无任何前置依赖。
+游戏版本要求：[b]正式版 v0.107.1 起[/b]（测试分支 v0.111.0 / v0.113.0 也可使用同一版本模组）。无任何前置依赖。
 
 [hr][/hr]
 [h2]❓ 常见问题[/h2]
@@ -85,7 +86,7 @@ A：这是游戏自身的版本兼容问题：正式版读不了测试分支写�
 
 [hr][/hr]
 [h2]English[/h2]
-Bring Minecraft monsters into Slay the Spire 2 — [b]19 monsters and 25 encounters[/b] across all 3 acts, sharing the encounter pools with the official content. Hand-drawn Spine animations, original mechanics (punish-pass, perfect-block puzzle, load-interrupt, shell damage reduction, multi-hit counter, neutral-aggro Enderman that only fights back once targeted, percentage-based Witch healing) and full zhs/eng localization. Wither skeleton packs now open staggered like the Sentries from the first game, so the whole squad never shields up on the same turn (v1.8.0). All textures are bundled inside the mod: no dependencies, no extra files. Requires game version 0.107.1 or newer (the same build also works on the 0.111.0 beta branch).
+Bring Minecraft monsters into Slay the Spire 2 — [b]19 monsters and 25 encounters[/b] across all 3 acts, sharing the encounter pools with the official content. Hand-drawn Spine animations, original mechanics (punish-pass, perfect-block puzzle, load-interrupt, shell damage reduction, multi-hit counter, neutral-aggro Enderman that only fights back once targeted, percentage-based Witch healing) and full zhs/eng localization. Wither skeleton packs open staggered like the Sentries from the first game, and the Ender Dragon can no longer become untargetable after reviving (v1.9.0). This build runs on the game v0.113.0 beta update. All textures are bundled inside the mod: no dependencies, no extra files. Requires game version 0.107.1 or newer (the same build also works on the 0.111.0 and 0.113.0 beta branches).
 
 [hr][/hr]
 作者：MengUkal

@@ -45,13 +45,14 @@ public sealed class JockeyRevivePower : PowerModel
         GetInternalData<Data>().isReviving = false;
     }
 
-    public override async Task AfterDeath(PlayerChoiceContext choiceContext, Creature creature, bool wasRemovalPrevented, float deathAnimLength)
+    /// <summary>
+    /// 由 ReviveDeathPatches（Hook.AfterDeath 后置补丁）在主人死亡时调用。
+    /// 不直接 override AbstractModel.AfterDeath：该虚方法在 0.107/0.111 是 4 参、
+    /// 0.113 新增 CardModel? source 变 5 参，override 会让一份 DLL 无法同时兼容两个分支。
+    /// </summary>
+    public void NotifyOwnerDeath()
     {
-        if (!wasRemovalPrevented && creature == base.Owner && creature.Monster is ChickenJockey jockey)
-        {
-            GetInternalData<Data>().isReviving = true;
-            await jockey.TriggerDeadState();
-        }
+        GetInternalData<Data>().isReviving = true;
     }
 
     public override bool ShouldAllowHitting(Creature creature)

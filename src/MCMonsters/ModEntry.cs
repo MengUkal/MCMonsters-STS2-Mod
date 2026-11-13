@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -43,9 +44,35 @@ public static class ModEntry
     public static void Initialize()
     {
         var harmony = new Harmony(ModId.ToLowerInvariant());
-        harmony.PatchAll(Assembly.GetExecutingAssembly());
 
-        // Patch cache-unload explicitly (attribute-based PatchAll did not pick this one up):
+        // v0.113 适配（KakoMod 同版本教训）：不要用 harmony.PatchAll —— 只要有一个
+        // [HarmonyPatch] 目标方法因游戏更新改名/改签名而失配，PatchAll 会抛
+        // HarmonyException 并**中止整批**，后面的补丁（含手工补丁）全部静默失效。
+        // 改为逐类应用 + 单类失败隔离，并打印「N 应用 / M 跳过」：
+        // 下次游戏更新时 M>0 就是有目标签名变了的第一信号。
+        int applied = 0;
+        int skipped = 0;
+        foreach (Type type in Assembly.GetExecutingAssembly().GetTypes())
+        {
+            if (type.GetCustomAttributes(typeof(HarmonyPatch), inherit: false).Length == 0)
+            {
+                continue;
+            }
+            try
+            {
+                harmony.CreateClassProcessor(type).Patch();
+                applied++;
+                Log.Info($"[{ModId}] 补丁类已应用: {type.Name}");
+            }
+            catch (System.Exception ex)
+            {
+                skipped++;
+                Log.Error($"[{ModId}] 补丁类跳过（目标签名可能已变）: {type.Name} -> {ex.GetType().Name}: {ex.Message}");
+            }
+        }
+        Log.Info($"[{ModId}] 属性补丁类: {applied} 应用 / {skipped} 跳过");
+
+        // Patch cache-unload explicitly (attribute-based patching did not pick this one up):
         // PreloadManager.LoadAssetSets unloads every cached asset not in the current asset sets,
         // which evicts the sfx streams we inject below.
         try
